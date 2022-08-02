@@ -1,0 +1,27 @@
+label{
+    color: rgb(100, 100, 100) !important;
+  }
+  th{
+    color: rgb(80, 80, 80) !important;
+    font-weight: 400 !important ;
+    font-size: 0.9rem !important;
+
+  }
+  td{
+    font-size: small;
+    color: rgb(80, 80, 80) !important;
+    font-weight: 300 !important;
+  }
+  :host >>> .select2-container {
+    min-width: 100%;
+    border: none;
+}
+:host >>> .select2 {
+  min-width: 100%;
+  border: none;
+}
+:host >>> .select2-selection .select2-selection--single{
+  border: none;
+
+}
+

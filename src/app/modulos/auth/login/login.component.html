@@ -1,0 +1,12 @@
+<div class="wrapper fadeInDown fondologin" >
+    <div id="formContent">
+      <div class="fadeIn first" style="padding: 15px;text-align: center;margin: 25px;">
+        <img src="/assets/img/logocolegio.png" id="icon"  alt="User Icon" style="width: 40%;" />
+      </div>
+      <form>
+        <input type="text" id="login" class="fadeIn second" name="correo" [(ngModel)]="user['email']" placeholder="correo">
+        <input type="password" id="password" class="fadeIn third" [(ngModel)]="user['password']" name="password" placeholder="contraseña">
+        <input type="button" class="fadeIn fourth" (click)="iniciarsesion()" value="Iniciar sesión">
+      </form>
+    </div>
+  </div>

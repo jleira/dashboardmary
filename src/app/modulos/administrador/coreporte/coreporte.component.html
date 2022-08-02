@@ -1,0 +1,73 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-6" *ngIf="form">
+                <label for="inputState">Formulario</label>
+                <ng-select2 class="form-control select select2" [data]="formularios_" [options]="options"
+                    (valueChanged)="buscarpreguntas($event)"></ng-select2>
+            </div>
+
+            <div class="col-md-6" *ngIf="preg">
+                <label for="inputState">Pregunta</label>
+                <ng-select2 class="form-control select select2" [data]="preguntas_" [options]="options"
+                    (valueChanged)="buscarreporte($event)"></ng-select2>
+            </div>
+
+            <div class="col-md-6" *ngIf="preg">
+                <label for="inputState">Fecha inicial</label>
+                <input type="date" class="form-control" placeholder="Fecha inicial" [(ngModel)]="finicial">
+            </div>
+
+            <div class="col-md-6" *ngIf="preg">
+                <label for="inputState">Fecha final</label>
+                <input type="date" class="form-control" placeholder="Fecha final" [(ngModel)]="ffinal">
+            </div>
+
+
+            <br>
+            <br>
+            <div class="col-md-12" *ngIf="preg">
+                <button  class="btn btn-primary btn-block" (click)="graficar()">Graficar</button>
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="card-title">GRAFICO DE LA RESPUESTA</h4>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reporte()">Descargar reporte</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+                                        [chartType]="doughnutChartType" [colors]="doughnutChartColors">
+                                    </canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="card-title">Usuarios por perfil</h4>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                (click)="reportexperfil()">Descargar reporte</button>
+                
+                            </div>
+                        </div>
+                        <p class="card-category">información del reporte</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" [colors]="doughnutChartColors">
+                                    </canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="card-title">Reporte de usuario por departamento</h4>
+                            </div>
+                        </div>
+                        <p class="card-category">información del reporte</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartData2" [labels]="doughnutChartLabels2" [chartType]="doughnutChartType" [colors]="doughnutChartColors">
+                                    </canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

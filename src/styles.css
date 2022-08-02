@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~ngx-toastr/toastr';
+
+@import '~ngx-toastr/toastr-bs4-alert';
+ 
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';
+
+
+
+.form-control{
+    border: none !important;
+  }
+  label{
+    color: rgb(100, 100, 100) !important;
+  }
+  th{
+    color: rgb(80, 80, 80) !important;
+    font-weight: 400 !important ;
+    font-size: 0.9rem !important;
+  }
+  td{
+    font-size: small;
+    color: rgb(80, 80, 80) !important;
+    font-weight: 300 !important;
+  }
+
+
+  input[type=text]{
+    border: none !important;
+  }
+  input[type=text]:after{
+    border: none !important;
+  }

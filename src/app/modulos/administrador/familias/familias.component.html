@@ -1,0 +1,158 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                <a data-toggle="tooltip" title="Registrar nuevo Usuario" (click)="crearnuevo()">
+                    <i class="material-icons" style="color: #1062b9;font-size: 2.5rem;">add_circle</i>
+                </a>
+            </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>estado</th>
+                                <th>Fecha creacion</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data">
+                                <td>{{item.id}}</td>
+                                <td>{{item.nombre}}</td>
+                                <td>{{item.estado==1?'Activo':'Inactivo'}}</td>
+                                <td>{{item.created_at}}</td>
+                                <td>
+                                    <button class="btn btn-link btn-success btn-small btn-sm" (click)="editarusuario(item)">
+                                        Ver usuarios
+                                    </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo grupo familiar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="datos_crear.name">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                    (click)="crear()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="usuariosModal" tabindex="-1" role="dialog" aria-labelledby="usuariosModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Grupo familiar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label>familia</label>
+                            <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="datos_editar.name">
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <br>
+                    <div class="col-lg-12">
+                        <h3>
+                            Usuarios
+                        </h3>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Nombre
+                                    </th>
+                                    <th>
+                                        Grado
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of usuarios">
+                                    <td>
+                                        {{item.name}}
+                                    </td>
+                                    <td>
+                                        {{item.grado}}
+
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                    (click)="modificarfamilia()">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>

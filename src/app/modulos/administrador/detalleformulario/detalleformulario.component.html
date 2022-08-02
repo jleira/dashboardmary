@@ -1,0 +1,164 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="card">
+            <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                <h4 class="card-title">{{id?'Editar formulario':'Crear Nuevo Formulario'}}</h4>
+                <p class="card-category">información del formulario</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <b>Nombre español:</b>
+                        <input type="text" class="form-control" [(ngModel)]="datos_crear.nombre"
+                            placeholder="Nombre del formulario">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <b>Nombre en ingles:</b>
+                        <input type="text" class="form-control" [(ngModel)]="datos_crear.nombre_ing"
+                            placeholder="Nombre del formulario">
+                    </div>
+                </div>
+                <br>
+
+                <div class="col-sm-12" *ngIf="id">
+                    <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                        (click)="editarf()">Editar textos del formulario</button>
+                </div>
+
+                <br>
+                <div class="card-title" *ngIf="!id">
+                    <h5>Seleccione sus preguntas</h5>
+                </div>
+                <div class="card-title" *ngIf="id">
+                    <h5>Administre sus preguntas</h5>
+                </div>
+                <br>
+
+                <div class="row" *ngIf="!id">
+                    <div class="col-lg-12" style="text-align: center;">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger"
+                                        [dtOptions]="dtOptions" id="table10">
+                                        <!--
+                                <table class="table" id="table1">
+                -->
+
+                                        <thead>
+                                            <tr>
+                                                <th>Seleccionado</th>
+                                                <th>Id</th>
+                                                <th>Texto</th>
+                                                <th>Tipo</th>
+                                                <th>Fecha de creaacion</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of data">
+                                                <td><input type="checkbox" [(ngModel)]="item.seleccionado">
+                                                </td>
+                                                <td>{{item.id}}</td>
+                                                <td>{{item.texto}}
+                                                </td>
+                                                <td>{{item.tipo}}
+                                                </td>
+                                                <td>{{item.estado}}
+                                                </td>
+                                                <td>
+                                                    <a [routerLink]="['./../detalleempresa/'+item.id]">
+                                                        Editar
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="id">
+                    <div class="col-lg-12" style="text-align: center;">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger"
+                                        [dtOptions]="dtOptions" id="table10">
+                                        <!--
+                                <table class="table" id="table1">
+                -->
+
+                                        <thead>
+                                            <tr>
+                                                <th>Texto</th>
+                                                <th>Tipo</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of data; let pos ='index'">
+                                                <td style="text-align: left;">{{item.texto}}
+                                                </td>
+                                                <td>{{item.cat}}
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-btn btn-small btn-sm btn-success"  *ngIf="!item.seleccionado" (click)="agregaritem(item,pos)">
+                                                        Agregar
+                                                    </a>
+
+                                                    <a class="btn btn-btn btn-small btn-sm"  style="background-color:red;color:white" *ngIf="item.seleccionado" (click)="eliminaritem(item,pos)">
+                                                        Eliminar
+                                                    </a>
+
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <hr>
+
+
+                <div class="row" style="text-align: right;">
+                    <div class="col-sm-12" *ngIf="!id">
+                        <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="crear()">Crear Formulario</button>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        <br>
+
+    </div>
+</div>

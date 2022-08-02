@@ -1,0 +1,135 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>grado</th>
+                                <th>Semaforo</th>
+                                <th>Email</th>
+                                <th>Perfil</th>
+                                <th>Familia</th>
+                                <th>Marca</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data">
+                                <td>{{item.name}}</td>
+                                <td>{{item.grado}}</td>
+                                <td>{{buscar(item.semaforo)}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.cat}}</td>
+                                <td>{{item.familia}}</td>
+                                <td>{{buscar(item.marca)}}</td>
+                                <td>
+                                    <a class="btn btn-link" (click)="detalle(item)">
+                                        Gestionar
+                                    </a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">detalle del usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            <h6>
+                                {{detalleperfil?.name}}
+                            </h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>fecha de ultimo registro</label>
+                            <h6>
+                                {{detalleperfil?.fecha_ult_reg}}
+                            </h6>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label>Mensaje en app</label>
+                            <h6>
+                                {{detalleperfil?.mensaje}}
+                            </h6>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label>Semaforo</label>
+                            <h6>
+                                {{buscar(detalleperfil?.semaforo)}}
+                            </h6>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Marca</label>
+                            <h6>
+                                {{buscar(detalleperfil?.marca)}}
+                            </h6>
+                        </div>
+
+
+                    </div>
+                    <div class="form-row" *ngIf="!detalleperfil?.marca">
+                        <div class="col-md-12 text-center">
+                                <i class="material-icons {{buscar(detalleperfil?.semaforo)}}">qr_code</i>        
+                        </div>
+                    </div>
+
+                    <div class="form-row" *ngIf="detalleperfil?.marca">
+                        <div class="col-md-12 text-center">
+                                <i class="material-icons {{buscar(detalleperfil?.marca)}}">qr_code</i>        
+                        </div>
+                    </div>
+                  
+
+
+
+
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;" (click)="recargarinfo()">RECARGAR INFO</button>
+            </div>
+        </div>
+    </div>
+</div> 

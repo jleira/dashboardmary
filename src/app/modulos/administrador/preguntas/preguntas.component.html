@@ -1,0 +1,295 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                <a data-toggle="tooltip" title="Registrar nuevo gasto" (click)="crearnuevo()">
+                    <i class="material-icons" style="color: #1062b9;font-size: 2.5rem;">add_circle</i>
+                </a>
+            </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Texto</th>
+                                <th>Tipo</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data; let posi='index'">
+                                <td>{{item.texto}}
+                                </td>
+                                <td>{{item.cat}}
+                                </td>
+                                <td>
+                                    <a class="btn btn-link btn-sm btn-small btn-primary" (click)="editar(item,posi)">
+                                        Editar
+                                    </a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{datos_crear.id?'Editar pregunta':'Nueva pregunta'}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label>Texto en español</label>
+                            <input type="text" class="form-control" placeholder="Pregunta en español"
+                                [(ngModel)]="datos_crear.texto">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Texto ingles</label>
+                            <input type="text" class="form-control" placeholder="Pregunta en ingles"
+                                [(ngModel)]="datos_crear.texto_ing">
+                        </div>
+
+                        <div class="col-md-6" *ngIf="tipos_pregunta">
+                            <label for="inputState">Tipo</label>
+                            <select id="inputState" *ngIf="!datos_crear.id" placeholder="Tipo de respuesta"
+                                class="form-control" [(ngModel)]="datos_crear.tipo">
+                                <option *ngFor="let act of tipos_pregunta" value="{{act.id}}">{{act.nombre}}
+                                </option>
+
+                            </select>
+
+                            <select id="inputState" *ngIf="datos_crear.id && (datos_crear.tipo<3)"
+                                placeholder="Tipo de respuesta" class="form-control" [(ngModel)]="datos_crear.tipo">
+                                <option *ngFor="let act of [ tipos_pregunta[0],tipos_pregunta[1] ]" value="{{act.id}}">
+                                    {{act.nombre}}
+                                </option>
+
+                            </select>
+
+                            <select id="inputState" *ngIf="datos_crear.id && (datos_crear.tipo>2)"
+                                placeholder="Tipo de respuesta" class="form-control" [(ngModel)]="datos_crear.tipo">
+                                <option *ngFor="let act of [ tipos_pregunta[2],tipos_pregunta[3] ]" value="{{act.id}}">
+                                    {{act.nombre}}
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState">.</label>
+                            <button type="button" *ngIf="datos_crear.id" class="form-control btn btn-info"
+                                style="color: white;border-color:rgb(156, 147, 147) ;background-color: #273a7d;"
+                                (click)="editarpreguntatext()">Guardar
+                                cambios de la pregunta</button>
+                        </div>
+                    </div>
+                    <div class="form-row" *ngIf="datos_crear.tipo > 2 ">
+                        <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="crearopcion()">Agregar Opción
+                        </button>
+                    </div>
+
+                    <div class="form-row" *ngIf="datos_crear.tipo < 3 && datos_crear.tipo > 0">
+
+                        <div class="col-md-4">
+                            <label for="inputState">Alerta</label>
+                            <select id="inputState" placeholder="Alerta" class="form-control"
+                                [(ngModel)]="datosalerta.color">
+                                <option value="na">No aplica</option>
+                                <option value="a">Amarillo</option>
+                                <option value="r">Rojo</option>
+                            </select>
+                        </div>
+
+
+
+                        <div class="col-md-4" *ngIf="datosalerta.color!='na'">
+                            <label for="inputState">Operador</label>
+                            <select id="inputState" placeholder="Tipo de respuesta" class="form-control" 
+                                [(ngModel)]="datosalerta.operador">
+                                <option value="==">Igual</option>
+                                <option value="<" >Menor que</option>
+                                <option value=">"  >Mayor que</option>
+                                <option value="<=" >Menor igual que </option>
+                                <option value=">=" >Mayor igual que</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4" *ngIf="datosalerta.color!='na'">
+                            <label>Valor</label>
+                            <input type="text" class="form-control" placeholder="Valor umbral" [(ngModel)]="datosalerta.valor">
+                        </div>
+
+
+                        
+                    </div>
+                    <div class="form-row" *ngIf="datos_crear.tipo > 2 ">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <div class="table table-striped">
+                                    <div class="" *ngFor="let opcion_re of datos_crear.opciones; let ins='index' ">
+                                        <div class="card">
+
+                                            <div class="row card-body">
+                                                <div class="col-sm-6">
+                                                    {{opcion_re.opcion}} / {{opcion_re.opcion_ingles}}
+                                                </div>
+                                                <div class="col-sm-2" *ngIf="opcion_re.amarillo">
+                                                    Alerta: Amarillo
+                                                    <br>pregunta hija: {{opcion_re.preguntahija?'Si':'No'}}
+                                                </div>
+
+                                                <div class="col-sm-2" *ngIf="opcion_re.rojo">
+                                                    Alerta: Rojo
+                                                    <br>pregunta hija: {{opcion_re.preguntahija?'Si':'No'}}
+                                                </div>
+
+                                                <div class="col-sm-2" *ngIf="!opcion_re.rojo && !opcion_re.amarillo">
+                                                    Alerta: no aplica
+                                                    <br>pregunta hija: {{opcion_re.preguntahija?'Si':'No'}}
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    Estado: {{opcion_re.estado?'Activo':'Inactivo'}}
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <button class="btn btn-danger btn-small btn-sm"
+                                                        (click)="editaropcion(opcion_re,ins)">
+                                                        Editar
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link"
+                    data-dismiss="modal">{{datos_crear.id?'Cerrar':'Cancelar'}}</button>
+                <button type="button" *ngIf="!datos_crear.id" class="btn btn-link"
+                    style="color: #1062b9;border-color: #1062b9;" (click)="crear()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="opciones" role="dialog" aria-labelledby="opciones" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="opciones">Opcion</h5>
+                <button type="button" class="close" (click)="disopciones()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <label>Opcion español</label>
+                            <input type="text" class="form-control" placeholder="Opcion en español"
+                                [(ngModel)]="opcion.opcion">
+                        </div>
+                        <div class="col-md-12">
+                            <label>Opcion Ingles</label>
+                            <input type="text" class="form-control" placeholder="Opcion en ingles"
+                                [(ngModel)]="opcion.opcion_ingles">
+                        </div>
+
+
+                        <div class="col-md-8" *ngIf="preg">
+                            <label for="inputState">Pregunta hija</label>
+                            <ng-select2 class="form-control select select2" *ngIf="datos_crear.tipo>2"
+                                [(ngModel)]="opcion.preguntahija" [data]="exampleData" [cssImport]="true"
+                                [Options]='{width:"100%"}'></ng-select2>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="inputState">Alerta</label>
+                            <select id="inputState" placeholder="Tipo de respuesta" class="form-control"
+                                [(ngModel)]="opcion.color">
+                                <option value="na">No aplica</option>
+                                <option value="a">Amarillo</option>
+                                <option value="r">Rojo</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label for="inputState">estado</label>
+                            <select id="inputState" placeholder="Tipo de respuesta" class="form-control"
+                                [(ngModel)]="opcion.estado">
+                                <option [value]="1">Activo</option>
+                                <option [value]="0">Inactivo</option>
+
+                            </select>
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link" (click)="disopciones()">Cancelar</button>
+                <button type="button"  *ngIf="!opcion.id" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                    (click)="crearo()">Crear Opcion</button>
+                <button type="button" *ngIf="opcion.id" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                    (click)="editaropc()">Editar Opcion</button>
+            </div>
+        </div>
+    </div>
+</div>

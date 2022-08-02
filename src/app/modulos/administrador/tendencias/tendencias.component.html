@@ -1,0 +1,45 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="card-title">TENDENCIA DE CONTAGIO</h4>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                (click)="reporte()">Descargar reporte</button>
+                
+                            </div>
+                        </div>
+                        <p class="card-category">Historico de casos recuperados y casos confirmados</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels"
+                                        [options]="lineChartOptions" [colors]="lineChartColors"
+                                        [legend]="lineChartLegend" [chartType]="lineChartType"
+                                        [plugins]="lineChartPlugins"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

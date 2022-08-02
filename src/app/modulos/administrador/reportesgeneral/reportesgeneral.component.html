@@ -1,0 +1,31 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-md-6" >
+                <label for="inputState">Fecha inicial</label>
+                <input type="date" class="form-control" placeholder="Fecha inicial" [(ngModel)]="finicial">
+            </div>
+
+            <div class="col-md-6" >
+                <label for="inputState">Fecha final</label>
+                <input type="date" class="form-control" placeholder="Fecha final" [(ngModel)]="ffinal">
+            </div>
+
+            <br>
+            <br>
+            <div class="col-md-12" >
+                <button  class="btn btn-success btn-block" (click)="reportediario()">Exportar encuesta diaria</button>
+            </div>
+
+            <div class="col-md-12" >
+                <button  class="btn btn-success btn-block" (click)="reportemensual()">Exportar encuesta mensual</button>
+            </div>
+
+        </div>
+        <br>
+
+    </div>
+</div>
+

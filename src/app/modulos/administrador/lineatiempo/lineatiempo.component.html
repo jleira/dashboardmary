@@ -1,0 +1,50 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+
+            <div class="col-md-6">
+                <label>
+                    Dias de historico
+                </label>
+                <input [(ngModel)]="dias" class="form-control" type="number" placeholder="dias">
+
+            </div>
+
+            <div class="col-md-6" style="display: flex;text-align: center;">
+                <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                (click)="cargarlineas()">Graficar</button>
+
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <h4 class="card-title">HISTORICO DE CASOS</h4>
+                        <p class="card-category">Historico de casos CONFIRMADOS Y RECUPERADOS</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels"
+                                        [options]="lineChartOptions" [colors]="lineChartColors"
+                                        [legend]="lineChartLegend" [chartType]="lineChartType"
+                                        [plugins]="lineChartPlugins"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

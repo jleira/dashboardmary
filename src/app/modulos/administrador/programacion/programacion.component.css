@@ -1,0 +1,17 @@
+label{
+    color: rgb(100, 100, 100) !important;
+  }
+
+  :host >>> .select2-container {
+    min-width: 100%;
+    border: none;
+}
+:host >>> .select2 {
+  min-width: 100%;
+  border: none;
+}
+:host >>> .select2-selection .select2-selection--single{
+  border: none;
+
+}
+

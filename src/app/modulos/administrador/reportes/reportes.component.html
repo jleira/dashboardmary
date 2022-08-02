@@ -1,0 +1,253 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 class="card-title">TODOS LOS USUARIOS</h4>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reportemodal()">Ver reporte</button>
+
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reporte()">Descargar reporte</button>
+
+                            </div>
+                        </div>
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+                                        [chartType]="doughnutChartType" [colors]="doughnutChartColors">
+                                    </canvas>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">HIGH SCHOOL </h3>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                (click)="reportemodal(1)">Ver reporte</button>
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reporte(1)">Descargar reporte</button>
+
+                            </div>
+                        </div>
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartDatahs" [labels]="doughnutChartLabelshs"
+                                        [chartType]="doughnutChartType" [colors]="doughnutChartColorshs"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">ELEMENTARY SCHOOL </h3>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                (click)="reportemodal(2)">Ver reporte</button>
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reporte(2)">Descargar reporte</button>
+
+                            </div>
+                        </div>
+
+
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartDataEL" [labels]="doughnutChartLabelsEL"
+                                        [chartType]="doughnutChartType" [colors]="doughnutChartColorsEL"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">PRE SCHOOL </h3>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                (click)="reportemodal(3)">Ver reporte</button>
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reporte(3)">Descargar reporte</button>
+                            </div>
+                        </div>
+
+
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartDataPS" [labels]="doughnutChartLabelsPS"
+                                        [chartType]="doughnutChartType" [colors]="doughnutChartColorsPS"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">ADMINISTRATIVO </h3>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                (click)="reportemodal(4)">Ver reporte</button>
+                                <button type="button" class="btn btn-link" style="color: white;border-color: white;"
+                                    (click)="reporte(4)">Descargar reporte</button>
+                            </div>
+                        </div>
+
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="chart-wrapper">
+                                    <canvas baseChart [data]="doughnutChartDataAD" [labels]="doughnutChartLabelsAD"
+                                        [chartType]="doughnutChartType" [colors]="doughnutChartColorsAD"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="nuevanotificacion">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Reporte generado
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                                    id="table10">
+                                    <!--
+                            <table class="table" id="table1">
+            -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Color</th>
+                                            <th>Grado</th>
+            
+                                            <th>Edad</th>
+                                            <th>Departamento</th>
+                                            <th>Role</th>
+            
+                                            <th>Pregunta</th>
+                                            <th>Respuesta</th>
+                                            <th>Fecha_confirmacion</th>
+                                            <th>Fecha_recuperacion</th>
+                                            <th>Estatus</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of data">
+                                            <td>{{item.Nombre}}</td>
+                                            <td>{{item.Color}}</td>
+                                            <td>{{item.Grado}}</td>
+                                            <td>{{item.Edad}}</td>
+                                            <td>{{item.Departamento}}</td>
+                                            <td>{{item.Role}}</td>
+                                            <td>{{item.Pregunta}}</td>
+                                            <td>{{item.Respuesta}}</td>
+                                            <td>{{item.Fecha_confirmacion}}</td>
+                                            <td>{{item.Fecha_recuperacion}}</td>
+                                            <td>{{item.Estatus}}</td>
+ 
+                                        </tr>
+                                    </tbody>
+                                </table>
+            
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link"
+                    data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

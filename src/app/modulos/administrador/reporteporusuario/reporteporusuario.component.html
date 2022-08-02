@@ -1,0 +1,58 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-6"  *ngIf="usu">
+                <label for="inputState">Usuarios</label>
+                <ng-select2 class="form-control select select2" [(ngModel)]="usersid" [data]="usuarios_" [options]="options"  (valueChanged)="buscarformularios($event)"></ng-select2>
+            </div>
+
+            <div class="col-md-6"  *ngIf="form">
+                <label for="inputState">Formularios</label>
+                <ng-select2 class="form-control select select2"  [(ngModel)]="formid"  [data]="formularios_" [options]="options"  (valueChanged)="buscarfechas($event)"></ng-select2>
+            </div>
+
+
+            <div class="col-md-6"  *ngIf="fec">
+                <label for="inputState">Fechas</label>
+                <ng-select2 class="form-control select select2" [data]="fechas_" [options]="options"  (valueChanged)="setearfecha($event)"></ng-select2>
+            </div>
+            <div class="col-md-6"  *ngIf="fec" style="display: flex;align-items: center">
+                <button type="button" class="btn btn-primary btn-block" (click)="buscarrespuestas()">Buscar</button>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="card-title">Respuestas del formulario</h4>
+                            </div>
+
+                        </div>
+                        <p class="card-category">información de las respuestas</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" *ngFor="let item of respuestas">
+                            <div class="col" style="margin-bottom: 5px;">
+                                <b>{{item.pregunta}}: </b><br>{{item.respuesta}}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>

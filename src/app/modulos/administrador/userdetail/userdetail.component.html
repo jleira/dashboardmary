@@ -1,0 +1,300 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="card">
+            <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                <h4 class="card-title">{{id?'Modificar Usuario':'Crear Nuevo Usuario'}}</h4>
+                <p class="card-category">Información del usuario</p>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Nombre</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['name']">
+
+                    </div>
+                    <div class="col">
+                        <b>Email</b>:
+                        <input type="text" class="form-control" value="{{miperfil['email']}}" disabled ="disabled">
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Perfil</b>:
+                        <select  class="form-control" [(ngModel)]="miperfil['perfil']">
+                            <option *ngFor="let act of perfiles" value="{{act.valor}}">{{act.texto}}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <b>Estado del usuario</b>:
+                        <select  class="form-control" [(ngModel)]="miperfil['status']">
+                            <option  value="1">Activo</option>
+                            <option  value="0">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <b>Identificación</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['identificacion']" >
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Grado</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['grado']">
+
+                    </div>
+                    <div class="col">
+                        <b>Fecha de nacimiento</b>:
+                        <input type="date" class="form-control" [(ngModel)]="miperfil['fecha_nacimiento']">
+                    </div>
+                </div>
+
+
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Primer Nombre</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['primer_nombre']">
+
+                    </div>
+                    <div class="col">
+                        <b>Segundo Nombre</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['segundo_nombre']">
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Primer Apellido</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['primer_apellido']">
+
+                    </div>
+                    <div class="col">
+                        <b>Segundo Apellido</b>: 
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['segundo_apellido']">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Familia</b>:
+                        <select  class="form-control" [(ngModel)]="miperfil['familiaid']">
+                            <option value="0">Sin familia</option>
+                            <option *ngFor="let act of familias" value="{{act.id}}">{{act.nombre}}</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Perfil aplicacion</b>:
+                        <select  class="form-control" [(ngModel)]="miperfil['perfil_aplicacion']">
+                            <option value="">Sin perfil</option>
+                            <option *ngFor="let act of perfilesapp" value="{{act.valor}}">{{act.texto}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <b>Correo del padre</b>:
+                        <input type="text" class="form-control" [(ngModel)]="miperfil['correo1']">
+
+                    </div>
+
+                </div>
+                <div class="row mb-2">
+
+                <div class="col">
+                    <b>Correo de la madre</b>:
+                    <input type="text" class="form-control" [(ngModel)]="miperfil['correo2']">
+
+                </div>
+                <div class="col">
+                    <b>Correo del acudiente</b>:
+                    <input type="text" class="form-control" [(ngModel)]="miperfil['correo3']">
+
+                </div>
+
+            </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Semaforo Calculado:</b><br>
+                        {{buscarsemaforo(miperfil['semaforo'])}}
+                        
+
+                    </div>
+                    <div class="col">
+                        <b>Mensaje</b>:<br>
+                        {{miperfil['mensaje']}}
+                    </div>
+                </div>
+
+
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <b>Marca:</b><br>
+                        {{miperfil['marca']?miperfil['color']:'Sin marca personalizada'}}                    
+                    </div>
+                    <div class="col">
+                        <b>Fecha:</b><br>
+                        {{miperfil['fecha_marca']?miperfil['fecha_marca']:'Sin marca personalizada'}}                    
+                    </div>
+                </div>
+
+
+
+                <div class="col">
+
+
+
+
+                <hr>
+
+
+                <div class="row" style="text-align: right;">
+                    <div class="col-sm-12" >
+                        <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="cambiarpassmodal()">Cambiar contraseña</button>
+                            <button type="button" *ngIf="miperfil['carnet'] || miperfil['carnet_posterior']"  class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="verCarnet()">Ver Carnet</button>
+
+
+                            <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="editarperfil()">Editar Usuario</button>
+                            <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="modalmarca()">{{miperfil['marca']?'Modificar marca actual':'Crear marca personalizada'}}</button>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        <br>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="marcapersonalizada">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarrutinaLabel">{{miperfil['marca']?'Modificar marca actual':'Crear marca personalizada'}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-6">
+                            <label for="inputState">Semaforo</label>
+                                <select  class="form-control" [(ngModel)]="marca">
+                                    <option *ngFor="let act of semaforos" value="{{act.valor}}">{{act.texto}}</option>
+                                </select>        
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState">Mensaje</label>
+                            <input type="text" class="form-control" [(ngModel)]="mensaje">
+                        </div>
+                        <div class="col-md-6">
+                            <b>Fecha de semaforo</b>:
+                            <input type="date" class="form-control" [(ngModel)]="fecha_cierre">
+                        </div>
+    
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-link" *ngIf="miperfil['marca']" style="color: white;background-color: #e08436;" (click)="eliminarmarca()">Eliminar marca</button>
+                <button type="button"  class="btn btn-link" *ngIf="!miperfil['marca']" style="color: #1062b9;border-color: #1062b9;" (click)="actualizarmarca()">Crear marca</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cambiarpass">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarrutinaLabel">Cambiar contraseña
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+
+                    <div class="form-row">
+
+
+                        <div class="col-md-6">
+                            <label for="inputState">Contraseña</label>
+                            <input type="text" class="form-control" [(ngModel)]="pass">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-link" style="color: white;background-color: #e08436;" (click)="cambiar()">Cambiar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="carnet">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarrutinaLabel">Carnet
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="miperfil['carnet']">
+                <img style="width: 100%;" src="https://neocare.com.co/storage/app/userimg/{{miperfil['user_id']}}/{{miperfil['carnet']}}" alt="">
+
+            </div>
+
+            <div class="modal-body" *ngIf="miperfil['carnet_posterior']">
+                <img style="width: 100%;" src="https://neocare.com.co/storage/app/posterior/{{miperfil['user_id']}}/{{miperfil['carnet_posterior']}}" alt="">
+
+            </div>
+
+            
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

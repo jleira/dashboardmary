@@ -1,0 +1,155 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">Estudiantes</h3>
+                            </div>
+                        </div>
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="table">
+                                <table class="table">
+                                    <thead class="thead-dark">
+
+                                        <tr>
+                                            <th scope="col">Sección</th>
+                                            <th scope="col">Total estudiantes</th>
+                                            <th scope="col">Total alternancia</th>
+                                            <th scope="col">Total e-learning</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of datos.estudiantes_count">
+                                            <th scope="row">{{item.color}}</th>
+                                            <td>{{item.contador}}</td>
+                                            <td>na</td>
+                                            <td>na</td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Total</th>
+                                            <td>{{total_est}}</td>
+                                            <td>na</td>
+                                            <td>na</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title">Colaboradores</h3>
+                            </div>
+                        </div>
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="table">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Seccion</th>
+                                            <th scope="col">Total Colaboradores</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of datos.estudiantes_count">
+                                            <th scope="row">{{item.color}}</th>
+                                            <td>{{item.contador_noest}}</td>
+                                           
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Total</th>
+                                            <td>{{total_col}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger" style="background: #273a7d !important;">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="card-title">Estudiantes que reportaron toda la semana</h3>
+                            </div>
+                        </div>
+                        <p class="card-category">Información del reporte</p>
+                    </div>
+                    <div class="card-body"  *ngIf="boolest">
+                        <div class="row">
+                            <div class="table">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Sección</th>
+                                            <th scope="col">Grado</th>
+                                            <th scope="col">numero de estudiantes</th>
+                                            <th scope="col">TOTAL</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let item of datosestuxsemana">
+                                            <tr >
+                                                <td [attr.rowspan]="item.rowespan">{{item.categoria}}</td>                                                
+                                                <td>{{item.gradoi}}</td>                                                
+                                                <td>{{item.canti}}</td>                                                
+                                                <td [attr.rowspan]="item.rowespan">{{item.total}}</td>                                                
+                                            </tr>
+                                            <tr  *ngFor="let objti of item.grados">
+                                                <td>{{objti.grado}}</td>                                                
+                                                <td>{{objti.cant_est}}</td>                                                
+                                            </tr>
+    
+                                       
+                                    </tbody>
+                                    <tbody >
+                                        <tr >
+                                            <td [attr.colspan]="3">TOTAL</td>                                                
+                                            <td >{{total_est_semana}}</td>                                                
+                                        </tr>
+
+                                   
+                                </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>

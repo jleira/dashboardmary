@@ -1,0 +1,232 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                <a data-toggle="tooltip" title="Registrar nuevo Usuario" (click)="crearnuevo()">
+                    <i class="material-icons" style="color: #1062b9;font-size: 2.5rem;">add_circle</i>
+                </a>
+            </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Categoría</th>
+                                <th>Titulo</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data">
+                                <td>
+                                    <img src="{{item.img_principal}}" alt="" style="max-height: 20px;">
+                                </td>
+                                <td>{{buscarperfil(item.categoria)}}</td>
+                                <td>{{item.titulo_espanol.substring(0, 50)}}...
+                                </td>
+                                <td>
+                                        <button class="btn btn-danger btn-small btn-sm btn-link" (click)="editar(item)">
+                                            Editar
+                                        </button>
+                                        <button type="button" class="btn btn-warning btn-link  btn-small btn-sm "
+                                            (click)="eliminaritem(item.id)">Eliminar</button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalpublicacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Noticia
+
+                        </h4>
+                        <p class="card-category">información de la noticia</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h5>Categoría</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Seleccione</b>
+                            </div>
+                            <div class="col-10">
+                                <select id="inputState" placeholder="Perfil del usuario" class="form-control"
+                                [(ngModel)]="datos_crear.categoria">
+                                <option *ngFor="let act of perfiles" value="{{act.valor}}">{{act.texto}}
+                                </option>
+
+                            </select>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="card-title">
+                            <h5>Titulo</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Español:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder=""
+                                    [(ngModel)]="datos_crear.titulo_espanol">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Ingles:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder=""
+                                    [(ngModel)]="datos_crear.titulo_ingles">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="card-title">
+                            <h5>Enlaces de noticias</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Español:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder=""
+                                    [(ngModel)]="datos_crear.archivos">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Ingles:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder=""
+                                    [(ngModel)]="datos_crear.archivosing">
+                            </div>
+                        </div>
+
+                        <hr>
+ 
+                        <hr>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class=" text-info">
+                                        Imagen principal español
+                                    </td>
+                                    <td>
+                                        <img *ngIf="srcImagespa" id="oneim" [src]="srcImagespa" alt="..."
+                                            style="max-height: 50px;">
+                                    </td>
+                                    <td class="td-actions text-right">
+
+                                        <div>
+                                            <span class="btn btn-primary btn-link btn-sm btn-just-icon btn-file">
+                                                <span class="fileinput-new">
+                                                    <i class="material-icons">publish</i>
+                                                </span>
+                                                <input (change)="onChangeImagenPrincipalEsp($event)" type="file"
+                                                    name="..." accept="image/*" name="file-1[]" id="file-esp" />
+                                            </span>
+                                            <!-- <a href="javascript:;" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Quitar</a> -->
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td class="text-info">
+                                        Imagen principal ingles
+                                    </td>
+                                    <td>
+                                        <img *ngIf="srcImageing" id="oneim" [src]="srcImageing" alt="..."
+                                            style="max-height: 50px;">
+                                    </td>
+                                    <td class="td-actions text-right">
+
+                                        <div>
+                                            <span class="btn btn-primary btn-link btn-sm btn-just-icon btn-file">
+                                                <span class="fileinput-new">
+                                                    <i class="material-icons">publish</i>
+                                                </span>
+                                                <input (change)="onChangeImagenPrincipalIng($event)" type="file"
+                                                    name="..." accept="image/*" name="file-1[]" id="file-1ingls" />
+                                            </span>
+                                            <!-- <a href="javascript:;" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Quitar</a> -->
+                                        </div>
+
+
+
+                                        <button [disabled]="disabled" mat-raised-button type="button"
+                                            matTooltip="Subir imagen" [matTooltipPosition]="'above'"
+                                            class="btn btn-primary btn-link btn-sm btn-just-icon" *ngIf="false">
+                                            <i class="material-icons">publish</i>
+                                        </button>
+                                        <button [disabled]="false" mat-raised-button type="button"
+                                            matTooltip="Eliminar evidencia" [matTooltipPosition]="'above'"
+                                            class="btn btn-danger btn-link btn-sm btn-just-icon" *ngIf="false">
+                                            <i class="material-icons">close</i>
+                                        </button>
+
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <hr>
+                        <div style="text-align:right;">
+                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                            <button *ngIf="!this.datos_crear.id" type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                                (click)="subir()">Guardar</button>
+
+                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                                (click)="editarpublicacion()">Editar</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,247 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                <a data-toggle="tooltip" title="Registrar nuevo gasto" (click)="crearnuevo()">
+                    <i class="material-icons" style="color: #1062b9;font-size: 2.5rem;">add_circle</i>
+                </a>
+            </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Frecuencia</th>
+                                <th>Estado</th>
+                                <th>Hora Ejecución</th>
+                                <th>Ultima Ejecución</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data; let posi='index'">
+                                <td>{{item.titulo}}</td>
+                                <td>{{item.tipo==1?'Notificacion':'Formulario'}}</td>
+                                <td>{{item.cat}}</td>
+                                <td>{{item.estado==1?'Activo':'Inactivo'}}</td>
+                                <td>{{item.hora_ejecucion}}</td>
+                                <td>{{item.ultima_ejecucion.substr(0,16)}}</td>
+
+                                <td>
+                                    <a class="btn btn-link btn-sm btn-small btn-primary" (click)="editar(item,posi)">
+                                        Editar
+                                    </a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{datos_crear.id?'Editar rutina':'Nueva rutina'}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+
+                        <div class="col-md-6" *ngIf="!datos_crear.id">
+                            <label for="inputState">Tipo</label>
+                            <select id="inputState" placeholder="Tipo de rutina" class="form-control"
+                                [(ngModel)]="datos_crear.tipo">
+                                <option *ngFor="let act of tipo_rutinas" value="{{act.id}}">{{act.nombre}}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6" *ngIf="datos_crear.tipo==1">
+                            <label for="inputState">Notificacion</label>
+                            <select id="inputState" placeholder="Notificacion" class="form-control"
+                                [(ngModel)]="datos_crear.item_id">
+                                <option *ngFor="let act of notificaciones" value="{{act.id}}">
+                                    {{act.titulo}}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-6" *ngIf="datos_crear.tipo==2">
+                            <label for="inputState">Formulario</label>
+                            <select id="inputState" placeholder="Notificacion" class="form-control"
+                                [(ngModel)]="datos_crear.item_id">
+                                <option *ngFor="let act of formularios" value="{{act.id}}">
+                                    {{act.nombre}}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="col-md-6">
+                            <label for="inputState">Frecuencia</label>
+                            <select id="inputState" placeholder="Tipo de rutina" class="form-control"
+                                [(ngModel)]="datos_crear.frecuencia">
+                                <option *ngFor="let act of perfiles" value="{{act.valor}}">{{act.texto}}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState">Horario de ejecución</label>
+                            <select id="inputState" placeholder="Hora" class="form-control"
+                                [(ngModel)]="datos_crear.hora">
+                                <option *ngFor="let act of horarios" value="{{act.valor}}">{{act.nombre}}
+                                </option>
+                            </select>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6"  *ngIf="preg">
+                            <label for="inputState">Perfiles</label>
+                            <ng-select2 class="form-control select select2"  
+                                [(ngModel)]="segmentos" [data]="exampleData" [options]="options" ></ng-select2>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputState">Fecha de ultima ejecución</label>
+                            <input class="form-control" type="date" [(ngModel)]="datos_crear.ejecucion" >
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            
+            <br>
+            <br>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-danger btn-link"
+                    data-dismiss="modal">{{datos_crear.id?'Cerrar':'Cancelar'}}</button>
+                <button type="button" *ngIf="!datos_crear.id" class="btn btn-link"
+                    style="color: #1062b9;border-color: #1062b9;" (click)="crear()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editarrutina">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarrutinaLabel">Editar rutina
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-row">
+
+                        <div class="col-md-12">
+                            <h3>
+                                {{datosrut.tipo==1?'Notificacion ':'Formulario'}} {{datosrut.nombre}}
+                            </h3>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="col-md-6">
+                            <label for="inputState">Frecuencia</label>
+                            <select id="inputState" placeholder="Tipo de rutina" class="form-control"
+                                [(ngModel)]="datos_crear.frecuencia">
+                                <option *ngFor="let act of perfiles" value="{{act.valor}}">{{act.texto}}
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState">Horario de ejecución</label>
+                            <select id="inputState" placeholder="Hora" class="form-control"
+                                [(ngModel)]="datos_crear.hora">
+                                <option *ngFor="let act of horarios" value="{{act.valor}}">{{act.nombre}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState">Estado</label>
+                            <select id="inputState" placeholder="Hora" class="form-control"
+                                [(ngModel)]="datos_crear.estado">
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6"  *ngIf="preg">
+                            <label for="inputState">Perfiles</label>
+                            <ng-select2 class=" select select2" [(ngModel)]="segmentos" [data]="exampleData" [options]="options" ></ng-select2>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputState">Fecha de ultima ejecución (Dejar en blanco si no desea modificarla)</label>
+                            <input class="form-control" type="date" [(ngModel)]="datos_crear.ejecucion" >
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" *ngIf="datosrut.tipo==1" style="color: white;background-color: #e08436;" (click)="eliminar()">Eliminar</button>
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                <button type="button"  class="btn btn-link" style="color: #1062b9;border-color: #1062b9;" (click)="actualizar()">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>

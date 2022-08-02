@@ -1,0 +1,50 @@
+.div-show-color {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 20%;
+    -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.card-icon-color {
+    -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.fileinput-new img {
+    padding: 15px;
+    background: #e7e7e7;
+    -webkit-transition: color 1.3s ease-in-out, border-color 1.3s ease-in-out, background-color 1.3s ease-in-out;
+    transition: color 1.3s ease-in-out, border-color 1.3s ease-in-out, background-color 1.3s ease-in-out;
+}
+
+.fileinput-preview.fileinput-exists>img {
+    padding: 15px;
+    -webkit-transition: color 1.3s ease-in-out, border-color 1.3s ease-in-out, background-color 1.3s ease-in-out;
+    transition: color 1.3s ease-in-out, border-color 1.3s ease-in-out, background-color 1.3s ease-in-out;
+}
+
+.div-badge-icon .badge {
+    position: absolute;
+    left: 7px;
+    bottom: 15px;
+    border-radius: 12px;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    font-size: 2px;
+}
+
+.div-badge-icon {
+    position: relative;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+label {
+    color: rgb(100, 100, 100) !important;
+}
