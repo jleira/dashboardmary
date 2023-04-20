@@ -22,6 +22,10 @@ import { ReporteponderadoComponent } from './reporteponderado/reporteponderado.c
 import { FamiliasComponent } from './familias/familias.component';
 import { UsuariossupervisionComponent } from './usuariossupervision/usuariossupervision.component';
 import { EventosComponent } from './eventos/eventos.component';
+import { BoletinComponent } from './boletin/boletin.component';
+import { UpCommingComponent } from './upcomming/upcomming.component';
+import { CalendarioComponent } from './calendario/calendario.component';
+import { SuggestionComponent } from './suggestion/suggestion.component';
 
 
 const routes: Routes = [
@@ -35,7 +39,7 @@ const routes: Routes = [
   path: 'usuarios',
   component: UsuariosComponent
 }, {
-  path: 'protocolos',
+  path: 'updatelink',
   component: ProtocolosComponent
 }, {
   path: 'noticias',
@@ -49,11 +53,8 @@ const routes: Routes = [
 }, {
   path: 'programacion',
   component: ProgramacionComponent
-}, {
-  path: 'notificaciones',
-  component: NotificacionesComponent
 },{
-  path: 'reportes',
+  path: 'reporteboletin',
   component: ReportesComponent
 }, {
   path: 'familias',
@@ -98,6 +99,35 @@ const routes: Routes = [
 },{
   path: 'eventos',
   component: EventosComponent
+}
+
+,{
+  path: 'boletin',
+  component: BoletinComponent
+}, {
+  path: 'noticias',
+  component: NoticiasComponent
+}, {
+  path: 'upcomming',
+  component: UpCommingComponent
+},{
+  path: 'entrada/usuarios',
+  component: UsuariossupervisionComponent
+},
+{
+  path: 'updatelink',
+  component: ProtocolosComponent
+},
+{
+  path: 'calendario',
+  component: CalendarioComponent
+},
+{
+  path: 'notificaciones',
+  component: NotificacionesComponent
+},{
+  path: 'sugerencias',
+  component: SuggestionComponent
 }
 
 ];

@@ -18,7 +18,7 @@ export class ApirestService {
   token;
   header;
   tokenset="";
-  
+  user:any;
   constructor(private helper:JwtHelperService,
     private _http: HttpClient, 
     private router: Router
@@ -31,6 +31,14 @@ export class ApirestService {
      this.tokenset = localStorage.getItem(environment.ISLOGGEDKEY);
         this.token = 'Bearer ' + localStorage.getItem(environment.ISLOGGEDKEY);
     this.header = { 'Authorization': this.token };
+
+    if(this.token){
+      let userTest = localStorage.getItem('currentUser');
+      if (userTest) {
+        this.user = JSON.parse(userTest);
+      }  
+    }
+
   }
 
   postdata(data, endpoint) {

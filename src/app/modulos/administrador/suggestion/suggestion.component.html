@@ -1,0 +1,128 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Titulo</th>
+                                <th>descripcion</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Usuario</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data">
+
+                                <td>{{item.subject.substring(0, 50)}}...
+                                </td>
+                                <td>{{item.description.substring(0, 50)}}...</td>
+                                <td>{{item.created_at}}</td>
+
+                                <td>{{item.resuelta?'Cerrado':'Abierto'}}</td>
+                                <td>{{item.name}}</td>
+
+                                <td>
+                                    <button class="btn btn-danger btn-small btn-sm btn-link" (click)="editar(item)">
+                                        Gestionar
+                                    </button>
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalpublicacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Sugerencia
+
+                        </h4>
+                        <p class="card-category">información</p>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Subject:</b>
+                            </div>
+                            <div class="col-10">
+                                <p>
+                                    {{datos_crear.subject}}
+                                </p>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Descripcion:</b>
+                            </div>
+                            <div class="col-10">
+                                {{datos_crear.description}}
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Respuesta:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.anotacion">
+                            </div>
+                        </div>
+                        <br>
+
+                        
+
+
+                        <hr>
+                        <div style="text-align:right;">
+                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;"
+                                (click)="editarpublicacion()">Cerrar sugerencia</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

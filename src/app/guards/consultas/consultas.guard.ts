@@ -14,7 +14,7 @@ export class ConsultasGuard implements CanActivate {
     let user = localStorage.getItem('currentUser');
     if (user) {
       let us=JSON.parse(user);
-      if(us.perfil_aplicacion==5){
+      if(us.perfil==5){
         return true;
       }else{
         return false;

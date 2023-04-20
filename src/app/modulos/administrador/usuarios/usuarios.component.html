@@ -24,22 +24,18 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Semaforo</th>
                                 <th>Email</th>
                                 <th>Perfil</th>
                                 <th>Familia</th>
-                                <th>Marca</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of data">
                                 <td>{{item.name}}</td>
-                                <td>{{buscar(item.semaforo)}}</td>
                                 <td>{{item.email}}</td>
                                 <td>{{item.cat}}</td>
                                 <td>{{item.familia}}</td>
-                                <td>{{buscar(item.marca)}}</td>
                                 <td>
                                     <a [routerLink]="['./../detallesusuario/'+item.id]">
                                         Gestionar

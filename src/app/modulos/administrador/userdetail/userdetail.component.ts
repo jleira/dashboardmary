@@ -414,7 +414,7 @@ user_id: 1260
 
 */
 
-let valoresnovalidos=['cat','color','fecha_nacimiento','correo1','correo2','correo3','clasificacion','edad','familiaid','grado','marca','p_semaforo','photo_url','r_semaforo','semaforo','uid','segundo_nombre','segundo_apellido','perfil_aplicacion','status','fecha_ult_reg','carnet','fecha_marca'];
+let valoresnovalidos=['cat','color','fecha_nacimiento','correo1','correo2','correo3','clasificacion','edad','familiaid','grado','marca','p_semaforo','photo_url','r_semaforo','semaforo','uid','segundo_nombre','segundo_apellido','perfil_aplicacion','status','fecha_ult_reg','carnet','fecha_marca','mensaje','carnet_posterior'];
 
       if (result.value) {
 

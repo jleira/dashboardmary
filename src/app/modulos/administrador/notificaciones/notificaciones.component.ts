@@ -28,10 +28,7 @@ export class NotificacionesComponent implements OnInit {
   datos_crear = {
     id: 0,
     titulo: "",
-    titulo_ing: "",
-    posicion: 0,
-    mensaje: '',
-    mensaje_ing: ''
+    mensaje: ''
   }
 
   constructor(private api: ApirestService,
@@ -41,78 +38,64 @@ export class NotificacionesComponent implements OnInit {
 
   perfiles = [];
   ngOnInit(): void {
-    this.cargarNotificaciones();
+    this.cargarperfiles();
+    
   }
 
-  cargarNotificaciones() {
-    this.api.getdata('notificaciones').subscribe((items) => {
-      this.data = items.data;
-      this.dtTrigger.next();
 
+  cargarperfiles() {
+    this.api.getdata('tiposPorClase?clase=perfiles').subscribe((items) => {
+      this.perfiles = items.data;
     }, err => {
       if (err.status == 422) {
         err.errors.forEach(element => {
-
         });
       }
-      console.log('err', err);
     });
   }
 
-  crearnuevo() {
-    this.datos_crear = {
-      id: 0,
-      titulo: "",
-      titulo_ing: "",
-      posicion: 0,
-      mensaje: '',
-      mensaje_ing: ''
-    }
-    $('#nuevanotificacion').modal('show');
-  }
 
-  crear() {
+
+  enviar() {
+
     let mensaje = '';
     if (!this.datos_crear.titulo) {
-      mensaje = '<br>Debe agregar un titulo para la notificacion en español';
-    }
-
-    if (!this.datos_crear.titulo_ing) {
-      mensaje = mensaje + '<br>Debe agregar un titulo para la notificacion en ingles';
+      mensaje = '<br>Debe agregar un titulo para la notificacion';
     }
 
     if (!this.datos_crear.mensaje) {
-      mensaje = mensaje + '<br>Debe agregar un mensaje para la notificacion en español';
+      mensaje = mensaje + '<br>Debe agregar un mensaje para la notificacion';
     }
 
-    if (!this.datos_crear.titulo_ing) {
-      mensaje = mensaje + '<br>Debe agregar un mensaje para la notificacion en ingles';
-    }
+    const perfilesN = this.perfiles.filter((item) => item.selected);
 
+    if (perfilesN.length == 0) {
+      mensaje = mensaje + '<br>Debe agregar los perfiles a quienes se notificara';
+    }
 
     if (mensaje) {
       this.api.notificaciones('warning', "Campos incompletos<br>" + mensaje);
       return;
     }
     this.SpinnerService.show();
-    this.api.postdata(this.datos_crear, 'notificacion/crear').subscribe((respuesta) => {
-      this.api.notificaciones('success', 'Información cargada exitosamente');
-      this.data.push(respuesta.data);
-      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        this.datos_crear = {
-          id: 0,
-          titulo: "",
-          titulo_ing: "",
-          posicion: 0,
-          mensaje: '',
-          mensaje_ing: ''
-        }
-        this.SpinnerService.hide();
-        $('#nuevanotificacion').modal('hide');
- 
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
+
+    const data = {
+      ...this.datos_crear,
+      perfiles:perfilesN,
+      user:this.api?.user?.id,
+      
+    }
+
+    this.api.postdata(data, 'notificacion/enviar').subscribe((respuesta) => {
+      this.api.notificaciones('success', 'Notificaciones enviadas exitosamente');
+      this.datos_crear = {
+        id: 0,
+        titulo: "",
+        mensaje: ''
+      };
+
+      this.SpinnerService.hide();
+
     }, err => {
       this.SpinnerService.hide();
       if (err.status == 401 || err.status == 403) {
@@ -130,87 +113,9 @@ export class NotificacionesComponent implements OnInit {
       console.log('error', err);
 
     });
+
+
+
+
   }
-
-
-  cargarperfiles() {
-    this.api.getdata('tiposPorClase?clase=frecuencia').subscribe((items) => {
-      this.perfiles = items.data;
-    }, err => {
-      if (err.status == 422) {
-        err.errors.forEach(element => {
-        });
-      }
-    });
-  }
-  editar(item, pos) {
-    this.SpinnerService.show();
-    this.datos_crear.id = item.id;
-    this.datos_crear.titulo_ing = item.titulo_ing;
-    this.datos_crear.titulo = item.titulo;
-    this.datos_crear.mensaje = item.mensaje;
-    this.datos_crear.mensaje_ing = item.mensaje_ing;
-    this.datos_crear.posicion =pos;
-    $('#nuevanotificacion').modal('show');
-    this.SpinnerService.hide();
-  }
-
-  actualizar() {
-
-    Swal.fire({
-      title: 'Editar',
-      text: "Esta a punto de Editar esta notifacion!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, editar!',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.value) {
-
-        this.SpinnerService.show();
-        this.api.postdata(this.datos_crear, 'notificacion/editar/' + this.datos_crear.id).subscribe((respuesta) => {
-          this.api.notificaciones('success', 'Información cargada exitosamente');
-          this.data[this.datos_crear.posicion] = respuesta.data;
-          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.destroy();
-            this.dtTrigger.next();
-            this.datos_crear = {
-              id: 0,
-              titulo: "",
-              titulo_ing: "",
-              posicion: 0,
-              mensaje: '',
-              mensaje_ing: ''
-            };
-
-            this.SpinnerService.hide();
-            $('#nuevanotificacion').modal('hide');
-
-          });
-        }, err => {
-          this.SpinnerService.hide();
-          if (err.status == 401 || err.status == 403) {
-            this.api.auth.logout();
-          }
-
-          if (err.status == 410) {
-
-            this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
-
-            return;
-          }
-
-          this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
-          console.log('error', err);
-
-        });
-
-        //        Swal.fire('Exitoso!', 'Sesión cerrada.', 'success');
-      }
-    });
-  }
-
-
 }

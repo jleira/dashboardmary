@@ -35,99 +35,91 @@ export class SidebarComponent implements OnInit {
     while (ROUTES.length > 0) {
       ROUTES.pop();
     }
-  if (userdata.perfil_aplicacion == 1) {
+  if (userdata.perfil == 1) {
     
 
       ROUTES.push(
-        { path: '/home/administrador/noticias', title: 'Noticias', icon: 'article', class: 'bold' },
-        { path: '/home/administrador/protocolos', title: 'Protocolos', icon: 'article', class: 'bold' },
-        { path: '/home/administrador/programacion', title: 'Programación', icon: 'event_note', class: 'bold' },
         { path: '/home/administrador/usuarios', title: 'Usuarios', icon: 'person', class: 'bold' },
-        { path: '/home/administrador/familias', title: 'Familias', icon: 'person', class: 'bold' },
-        { path: '/home/administrador/preguntas', title: 'Preguntas', icon: 'format_list_numbered', class: 'bold' },
-        { path: '/home/administrador/formularios', title: 'Formularios', icon: 'wysiwyg', class: 'bold' },
-        { path: '/home/administrador/notificaciones', title: 'Notificaciones', icon: 'notification_important', class: 'bold' },
-        { path: '/home/administrador/reportes', title: 'Resumen Diario', icon: 'analytics', class: 'bold' },
-        { path: '/home/administrador/indicador', title: 'Reporte diario de casos', icon: 'analytics', class: 'bold' },
-        { path: '/home/administrador/coomovidad', title: 'Grafico de Respuestas', icon: 'analytics', class: 'bold' },
-        { path: '/home/administrador/frecuencia', title: 'comorbilidad frecuencia', icon: 'analytics', class: 'bold' },
-        { path: '/home/administrador/usuariosxseccion', title: 'Reporte de usuarios', icon: 'analytics', class: 'bold' },        
-        { path: '/home/administrador/tendencias', title: 'Tendencia de contagio', icon: 'analytics', class: 'bold' },        
-        { path: '/home/administrador/reporteporusuario', title: 'Reporte por usuario', icon: 'analytics', class: 'bold' },        
-        { path: '/home/administrador/reportegeneral', title: 'Reporte General', icon: 'format_list_numbered', class: 'bold' },   
-        { path: '/home/administrador/reportesgenerales', title: 'Reporte por fechas', icon: 'format_list_numbered', class: 'bold' },   
-        { path: '/home/administrador/reporteglobal', title: 'Reporte Global', icon: 'format_list_numbered', class: 'bold' },
-        { path: '/home/administrador/entrada/usuarios', title: 'Usuarios entrada', icon: 'format_list_numbered', class: 'bold' },   
-   
-        
+        { path: '/home/administrador/familias', title: 'Familias', icon: 'person', class: 'bold' },           
+        { path: '/home/administrador/noticias', title: 'Noticias', icon: 'article', class: 'bold' },
+        { path: '/home/administrador/boletin', title: 'El Boletin', icon: 'article', class: 'bold' },
+        { path: '/home/administrador/upcomming', title: 'upcomming events', icon: 'article', class: 'bold' },
+        { path: '/home/administrador/reporteboletin', title: 'reporte boletin', icon: 'article', class: 'bold' },
+        { path: '/home/administrador/calendario', title: 'Calendario', icon: 'article', class: 'bold' },
+        { path: '/home/administrador/notificaciones', title: 'Notificaciones', icon: 'article', class: 'bold' },
+        { path: '/home/administrador/sugerencias', title: 'Sugerencias', icon: 'article', class: 'bold' },
       );
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/administrador/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
     }
 
-    if (userdata.perfil_aplicacion == 2) {
+    else if (userdata.perfil == 2) {
     
 
       ROUTES.push(
-        { path: '/home/enfermeria/programacion', title: 'Programación', icon: 'event_note', class: 'bold' },
-        { path: '/home/enfermeria/preguntas', title: 'Preguntas', icon: 'format_list_numbered', class: 'bold' },
         { path: '/home/enfermeria/usuarios', title: 'Usuarios', icon: 'person', class: 'bold' },
         { path: '/home/enfermeria/familias', title: 'Familias', icon: 'person', class: 'bold' },
-        { path: '/home/enfermeria/formularios', title: 'Formularios', icon: 'wysiwyg', class: 'bold' },
-        { path: '/home/enfermeria/notificaciones', title: 'Notificaciones', icon: 'notification_important', class: 'bold' },
-        { path: '/home/enfermeria/reportes', title: 'Resumen Diario', icon: 'analytics', class: 'bold' },
-        { path: '/home/enfermeria/indicador', title: 'Reporte diario de casos', icon: 'analytics', class: 'bold' },
-        { path: '/home/enfermeria/coomovidad', title: 'Grafico de Respuestas', icon: 'analytics', class: 'bold' },
-        { path: '/home/enfermeria/frecuencia', title: 'comorbilidad frecuencia', icon: 'analytics', class: 'bold' },
-        { path: '/home/enfermeria/usuariosxseccion', title: 'Reporte de usuarios', icon: 'analytics', class: 'bold' },        
-        { path: '/home/enfermeria/tendencias', title: 'Tendencia de contagio', icon: 'analytics', class: 'bold' },        
-        { path: '/home/enfermeria/reporteporusuario', title: 'Reporte por usuario', icon: 'analytics', class: 'bold' },        
-        { path: '/home/enfermeria/reportegeneral', title: 'Reporte General', icon: 'format_list_numbered', class: 'bold' },
-        { path: '/home/enfermeria/reportesgenerales2', title: 'Reporte por fechas', icon: 'format_list_numbered', class: 'bold' },     
-        { path: '/home/enfermeria/reporteglobal2', title: 'Reporte Global', icon: 'format_list_numbered', class: 'bold' },  
         { path: '/home/enfermeria/entrada/usuarios', title: 'Usuarios entrada', icon: 'format_list_numbered', class: 'bold' },   
  
       );
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/enfermeria/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
+
     }
-    if (userdata.perfil_aplicacion == 3) {
+    else if (userdata.perfil == 3) {
     
 
       ROUTES.push(
         { path: '/home/comunicaciones/noticias', title: 'Noticias', icon: 'article', class: 'bold' },
-        { path: '/home/comunicaciones/protocolos', title: 'Protocolos', icon: 'article', class: 'bold' },
-        { path: '/home/comunicaciones/entrada/usuarios', title: 'Usuarios entrada', icon: 'format_list_numbered', class: 'bold' },   
+        { path: '/home/comunicaciones/boletin', title: 'El Boletin', icon: 'article', class: 'bold' },
+        { path: '/home/comunicaciones/upcomming', title: 'upcomming events', icon: 'article', class: 'bold' },
+        { path: '/home/comunicaciones/reporteboletin', title: 'reporte boletin', icon: 'article', class: 'bold' },
+        
       );
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/comunicaciones/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
+
     }
-    if (userdata.perfil_aplicacion == 4) {
+    else if (userdata.perfil == 4) {
     
 
       ROUTES.push(
         { path: '/home/sistemas/usuarios', title: 'Usuarios', icon: 'person', class: 'bold' },
         { path: '/home/sistemas/familias', title: 'Familias', icon: 'person', class: 'bold' },
-        { path: '/home/comunicaciones/entrada/usuarios', title: 'Usuarios entrada', icon: 'format_list_numbered', class: 'bold' },   
-
+ 
       );
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/sistemas/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
+
     }
-    if (userdata.perfil_aplicacion == 5) {
+    else if (userdata.perfil == 5) {
     
 
       ROUTES.push(
-        { path: '/home/consultas/reportes', title: 'Resumen Diario', icon: 'analytics', class: 'bold' },
-        { path: '/home/consultas/indicador', title: 'Reporte diario de casos', icon: 'analytics', class: 'bold' },
-        { path: '/home/consultas/coomovidad', title: 'Grafico de Respuestas', icon: 'analytics', class: 'bold' },
-        { path: '/home/consultas/frecuencia', title: 'comorbilidad frecuencia', icon: 'analytics', class: 'bold' },
-        { path: '/home/consultas/usuariosxseccion', title: 'Reporte de usuarios', icon: 'analytics', class: 'bold' },        
-        { path: '/home/consultas/tendencias', title: 'Tendencia de contagio', icon: 'analytics', class: 'bold' },        
-        { path: '/home/consultas/reporteporusuario', title: 'Reporte por usuario', icon: 'analytics', class: 'bold' },        
-        { path: '/home/consultas/reportegeneral', title: 'Reporte General', icon: 'format_list_numbered', class: 'bold' },
-        { path: '/home/consultas/reportesgenerales', title: 'Reporte por fechas', icon: 'format_list_numbered', class: 'bold' },
-        { path: '/home/consultas/reporteglobal', title: 'Reporte Global', icon: 'format_list_numbered', class: 'bold' },  
         { path: '/home/consultas/entrada/usuarios', title: 'Usuarios entrada', icon: 'format_list_numbered', class: 'bold' },   
  
       );
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/consultas/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
+
     }
-    if (userdata.perfil_aplicacion == 6) {
+    else if (userdata.perfil == 6) {
       ROUTES.push(
         { path: '/home/entrada/usuarios', title: 'Usuarios', icon: 'format_list_numbered', class: 'bold' },   
       );
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/entrada/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
+
+    }else{
+      if (userdata.calendar){
+        ROUTES.push({ path: '/home/entrada/updatelink', title: 'link de citas', icon: 'link', class: 'bold' })
+      }
     }
 
 

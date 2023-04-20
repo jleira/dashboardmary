@@ -1,0 +1,14 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <br>
+        <div>
+            <input type="file" name="files" id="fileForUpload" accept=".xlsx" (change)="loadFile($event)" />
+        </div>
+        <br>
+        <div *ngIf="calendario.length">
+            <button type="button" class="btn btn-link btn-success btn-small btn-sm" 
+            (click)="enviar()">Enviar</button>
+
+        </div>
+    </div>
+</div>

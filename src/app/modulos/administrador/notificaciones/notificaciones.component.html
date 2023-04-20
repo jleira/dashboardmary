@@ -3,112 +3,38 @@
 
 
         <div class="row">
-            <div class="col-lg-12" style="text-align: right;">
-                <a data-toggle="tooltip" title="Registrar nuevo gasto" (click)="crearnuevo()">
-                    <i class="material-icons" style="color: #1062b9;font-size: 2.5rem;">add_circle</i>
-                </a>
+            <div class="col-12">
+                <label for="inputState">Titulo</label>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.titulo">
             </div>
+
+            <div class="col-12 mt">
+                <label for="inputState">Descripcion</label>
+                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.mensaje">
+            </div>
+            <div class="col-12 mt">
+                <label for="">
+                    Perfiles
+                </label>
+
+                <div style="display: grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr ;">
+                    <div *ngFor="let per of perfiles">
+                        <input type="checkbox" id="{{per.id}}" [(ngModel)]="per.selected">
+                        <label for="scales">{{per.texto}}</label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-12">
+                <button type="button" class="btn btn-link btn-success btn-small btn-sm mt"
+                    (click)="enviar()">Enviar</button>
+            </div>
+
 
 
         </div>
         <br>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
-                        id="table10">
-                        <!--
-                <table class="table" id="table1">
--->
-
-                        <thead>
-                            <tr>
-                                <th>Titulo</th>
-                                <th>Titulo Ingles</th>
-                                <th>Mensaje</th>
-                                <th>Mensaje Ingles</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of data; let posi='index'">
-                                <td>{{item.titulo.substring(0, 30)}}</td>
-                                <td>{{item.titulo_ing.substring(0, 30)}}</td>
-                                <td>{{item.mensaje.substring(0, 20)}}</td>
-                                <td>{{item.mensaje_ing.substring(0, 20)}}</td>
-
-                                <td>
-                                    <a class="btn btn-link btn-sm btn-small btn-primary" (click)="editar(item,posi)">
-                                        Editar
-                                    </a>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="nuevanotificacion">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    {{datos_crear.id?'Editar notificación':'Nueva notificación'}}
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div class="form-row">
-
-                        <div class="col-md-6" >
-                            <label for="inputState">Titulo en español</label>
-                            <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.titulo">
-                        </div>
-                        <div class="col-md-6" >
-                            <label for="inputState">Titulo en ingles</label>
-                            <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.titulo_ing">
-                        </div>
-
-                    </div>
-                    <br>
-
-                    <div class="form-row">
-
-                        <div class="col-md-6" >
-                            <label for="inputState">mensaje en español</label>
-                            <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.mensaje">
-                        </div>
-                        <div class="col-md-6" >
-                            <label for="inputState">mensaje en español</label>
-                            <input type="text" class="form-control" placeholder=""
-                                [(ngModel)]="datos_crear.mensaje_ing">
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-            <br>
-            <br>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-link"
-                    data-dismiss="modal">{{datos_crear.id?'Cerrar':'Cancelar'}}</button>
-                <button type="button" *ngIf="!datos_crear.id" class="btn btn-link"
-                    style="color: #1062b9;border-color: #1062b9;" (click)="crear()">Guardar</button>
-                <button type="button" *ngIf="datos_crear.id" class="btn btn-link"
-                    style="color: #1062b9;border-color: #1062b9;" (click)="actualizar()">Editar</button>
-            </div>
-        </div>
     </div>
 </div>

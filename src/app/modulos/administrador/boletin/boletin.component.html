@@ -1,0 +1,153 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                <a data-toggle="tooltip" title="Registrar nuevo Usuario" (click)="crearnuevo()">
+                    <i class="material-icons" style="color: #1062b9;font-size: 2.5rem;">add_circle</i>
+                </a>
+            </div>
+
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-striped hover" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions"
+                        id="table10">
+                        <!--
+                <table class="table" id="table1">
+-->
+
+                        <thead>
+                            <tr>
+                                <th>Titulo</th>
+                                <th>Fecha Boletin</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data">
+                                <td>{{item.titulo.substring(0, 50)}}...
+                                </td>
+
+                                <td>
+                                    {{item?.enlace.substring(0, 50)}}...
+                                </td>
+
+                                <td>{{item.date_new}}</td>
+
+                                <td>
+                                    <button class="btn btn-danger btn-small btn-sm btn-link" (click)="editar(item)">
+                                        Editar
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-link  btn-small btn-sm "
+                                        (click)="eliminaritem(item.id)">Eliminar</button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalpublicacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Boletin
+
+                        </h4>
+                        <p class="card-category">información del boletin</p>
+                    </div>
+                    <div class="card-body">
+
+
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Titulo:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.titulo">
+                            </div>
+                        </div>
+                        <hr>
+
+
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Link del boletin:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.enlace">
+                            </div>
+                        </div>
+                        <hr>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Fecha del boletin:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="date" class="form-control" placeholder=""
+                                    [(ngModel)]="datos_crear.date_new">
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        
+                        <label for="">
+                            Perfiles
+                        </label>
+
+                        <div style="display: grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr ;">
+                            <div *ngFor="let per of perfiles">
+                                <input type="checkbox" id="{{per.id}}" [(ngModel)]="per.selected">
+                                <label for="scales">{{per.texto}}</label>
+                            </div>
+
+                        </div>
+
+                        <br>
+
+                        <hr>
+
+
+                        <hr>
+                        <div style="text-align:right;">
+                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                            <button *ngIf="!this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;" (click)="crear()">Guardar</button>
+
+                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;"
+                                (click)="editarpublicacion()">Editar</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

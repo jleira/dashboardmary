@@ -24,25 +24,45 @@
                         <thead>
                             <tr>
                                 <th>Imagen</th>
-                                <th>Categoría</th>
                                 <th>Titulo</th>
+                                <th>Texto</th>
+                                <th>Tipo</th>
+                                <!--                                 <th>Principal</th>
+ -->
+                                <th>Fecha Noticia</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of data">
+                            <tr *ngFor="let item of data;let i =index">
                                 <td>
-                                    <img src="{{item.img_principal}}" alt="" style="max-height: 20px;">
+                                    <img src="{{prefijoImg}}{{item.imgp}}" alt="" style="max-height: 20px;">
+
                                 </td>
-                                <td>{{buscarperfil(item.categoria)}}</td>
-                                <td>{{item.titulo_espanol.substring(0, 50)}}...
+                                <td>{{item.titulo.substring(0, 50)}}...
                                 </td>
+                                <td>{{item.texto?.substring(0, 50)}}...
+                                </td>
+                                <td>{{item.tipo==1?'horizontal':'vertical'}}</td>
+                                <!--                                 <td>{{item.principal==1?'si':'no'}}</td>
+ -->
+                                <td>{{item.date_new}}</td>
+
                                 <td>
-                                        <button class="btn btn-danger btn-small btn-sm btn-link" (click)="editar(item)">
-                                            Editar
-                                        </button>
-                                        <button type="button" class="btn btn-warning btn-link  btn-small btn-sm "
-                                            (click)="eliminaritem(item.id)">Eliminar</button>
+                                    <button class="btn btn-danger btn-small btn-sm btn-link" (click)="editar(item,i)">
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-danger btn-small btn-sm btn-link"
+                                        (click)="editarAdd(item,i)">
+                                        agregar Imagen
+                                    </button>
+
+
+                                    <button class="btn btn-danger btn-small btn-sm btn-link" (click)="editarI(item,i)">
+                                        ORDENAR
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-link  btn-small btn-sm "
+                                        (click)="eliminaritem(item.id)">Eliminar</button>
 
                                 </td>
                             </tr>
@@ -74,149 +94,221 @@
                         <p class="card-category">información de la noticia</p>
                     </div>
                     <div class="card-body">
-                        <div class="card-title">
-                            <h5>Categoría</h5>
-                        </div>
+
+
                         <div class="row">
                             <div class="col-2">
-                                <b>Seleccione</b>
+                                <b>Titulo:</b>
                             </div>
                             <div class="col-10">
-                                <select id="inputState" placeholder="Perfil del usuario" class="form-control"
-                                [(ngModel)]="datos_crear.categoria">
-                                <option *ngFor="let act of perfiles" value="{{act.valor}}">{{act.texto}}
-                                </option>
-
-                            </select>
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.titulo">
                             </div>
                         </div>
                         <hr>
-
-                        <div class="card-title">
-                            <h5>Titulo</h5>
-                        </div>
                         <div class="row">
                             <div class="col-2">
-                                <b>Español:</b>
+                                <b>Enlace:</b>
                             </div>
                             <div class="col-10">
-                                <input type="text" class="form-control" placeholder=""
-                                    [(ngModel)]="datos_crear.titulo_espanol">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="datos_crear.enlace">
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="inputState">Orientacion</label>
+                                <select id="inputState" placeholder="vertical" class="form-control"
+                                    [(ngModel)]="datos_crear.tipo">
+                                    <option value="{{1}}">Horizontal</option>
+                                    <option value="{{2}}">Vertical</option>
+                                </select>
+                            </div>
+                            <!--      <div class="col-6">
+                                <label for="inputState">Es principal</label>
+                                <select id="inputState"  placeholder="vertical"
+                                    class="form-control" [(ngModel)]="datos_crear.principal">
+                                    <option value="{{1}}">Si</option>
+                                    <option value="{{0}}">No</option>
+                                </select>
+                            </div> -->
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Fecha de la Noticia:</b>
+                            </div>
+                            <div class="col-10">
+                                <input type="date" class="form-control" placeholder=""
+                                    [(ngModel)]="datos_crear.date_new">
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <b>Texto:</b>
+                            </div>
+                            <div class="col-10">
+                                <textarea rows="2" class="form-control" placeholder="" [(ngModel)]="datos_crear.texto">
+                                </textarea>
                             </div>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="col-2">
-                                <b>Ingles:</b>
+                        <label for="">
+                            Perfiles
+                        </label>
+
+                        <div style="display: grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr ;">
+                            <div *ngFor="let per of perfiles">
+                                <input type="checkbox" id="{{per.id}}" [(ngModel)]="per.selected">
+                                <label for="scales">{{per.texto}}</label>
                             </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" placeholder=""
-                                    [(ngModel)]="datos_crear.titulo_ingles">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="card-title">
-                            <h5>Enlaces de noticias</h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                                <b>Español:</b>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" placeholder=""
-                                    [(ngModel)]="datos_crear.archivos">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-2">
-                                <b>Ingles:</b>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" placeholder=""
-                                    [(ngModel)]="datos_crear.archivosing">
-                            </div>
+
                         </div>
 
                         <hr>
- 
-                        <hr>
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class=" text-info">
-                                        Imagen principal español
-                                    </td>
-                                    <td>
-                                        <img *ngIf="srcImagespa" id="oneim" [src]="srcImagespa" alt="..."
-                                            style="max-height: 50px;">
-                                    </td>
-                                    <td class="td-actions text-right">
-
-                                        <div>
-                                            <span class="btn btn-primary btn-link btn-sm btn-just-icon btn-file">
-                                                <span class="fileinput-new">
-                                                    <i class="material-icons">publish</i>
-                                                </span>
-                                                <input (change)="onChangeImagenPrincipalEsp($event)" type="file"
-                                                    name="..." accept="image/*" name="file-1[]" id="file-esp" />
-                                            </span>
-                                            <!-- <a href="javascript:;" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Quitar</a> -->
-                                        </div>
-                                    </td>
-
-
-                                </tr>
-
-                                <tr>
-                                    <td class="text-info">
-                                        Imagen principal ingles
-                                    </td>
-                                    <td>
-                                        <img *ngIf="srcImageing" id="oneim" [src]="srcImageing" alt="..."
-                                            style="max-height: 50px;">
-                                    </td>
-                                    <td class="td-actions text-right">
-
-                                        <div>
-                                            <span class="btn btn-primary btn-link btn-sm btn-just-icon btn-file">
-                                                <span class="fileinput-new">
-                                                    <i class="material-icons">publish</i>
-                                                </span>
-                                                <input (change)="onChangeImagenPrincipalIng($event)" type="file"
-                                                    name="..." accept="image/*" name="file-1[]" id="file-1ingls" />
-                                            </span>
-                                            <!-- <a href="javascript:;" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Quitar</a> -->
-                                        </div>
-
-
-
-                                        <button [disabled]="disabled" mat-raised-button type="button"
-                                            matTooltip="Subir imagen" [matTooltipPosition]="'above'"
-                                            class="btn btn-primary btn-link btn-sm btn-just-icon" *ngIf="false">
-                                            <i class="material-icons">publish</i>
-                                        </button>
-                                        <button [disabled]="false" mat-raised-button type="button"
-                                            matTooltip="Eliminar evidencia" [matTooltipPosition]="'above'"
-                                            class="btn btn-danger btn-link btn-sm btn-just-icon" *ngIf="false">
-                                            <i class="material-icons">close</i>
-                                        </button>
-
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
+                        <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif"  *ngIf="!this.datos_crear.id">
+                            <ngx-dropzone-label>
+                                <div>
+                                    <h2>Subir imagenes</h2>
+                                </div>
+                            </ngx-dropzone-label>
+                            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                            </ngx-dropzone-image-preview>
+                        </ngx-dropzone>
 
                         <hr>
                         <div style="text-align:right;">
                             <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
-                            <button *ngIf="!this.datos_crear.id" type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
-                                (click)="subir()">Guardar</button>
+                            <button *ngIf="!this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;" (click)="crear()">Guardar</button>
 
-                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
-                                (click)="editarpublicacion()">Editar</button>
+                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;"
+                                (click)="editarpublicacion()">Grabar</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModalImagenes" tabindex="-1" role="dialog" aria-labelledby="exampleModalImagenes"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Noticia
+
+                        </h4>
+                        <p class="card-category">información de la noticia</p>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
+
+                            <div *ngFor="let imagen of getImages(datos_crear.imagen);let itemindex = index">
+                                <div>
+                                    <div class="btn-group" style="    gap: 12px;">
+                                        <button (click)="eliminarItmen(itemindex)"   class="btn btn-warning">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        
+                                        <button (click)="subir(itemindex)" *ngIf="itemindex !=0" type="button" matTooltip="cambiar posicion"
+                                            class="btn btn-info">
+                                            <i class="fa fa-arrow-left"></i>
+                                        </button>
+
+                                    </div>
+
+
+                                </div>
+                                <img id="oneim" *ngIf="imagenSelected != itemindex" src="{{prefijoImg}}{{imagen}}"
+                                    alt="..." style="max-height:120px;max-width: 200px;"
+                                    (click)="imagenSelected=itemindex">
+                                <img id="oneim" *ngIf="imagenSelected == itemindex" src="{{prefijoImg}}{{imagen}}"
+                                    alt="..." style="max-height:120px;border:4px solid green;max-width: 200px;">
+                            </div>
+
+                        </div>
+
+                        <div style="text-align:right;">
+                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+                            <button *ngIf="!this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;" (click)="crear()">Guardar</button>
+
+                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;"
+                                (click)="editarOrdenImagenes()">Grabar</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModalImagenesAdd" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalImagenesAdd" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Noticia
+
+                        </h4>
+                        <p class="card-category">agregar imagenes a la noticia</p>
+                    </div>
+                    <div class="card-body">
+                        <div>
+
+                            <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif"  *ngIf="this.datos_crear.id">
+                                <ngx-dropzone-label>
+                                    <div>
+                                        <h2>Subir imagenes</h2>
+                                    </div>
+                                </ngx-dropzone-label>
+                                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                        </div>
+
+                        <div style="text-align:right;">
+                            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cancelar</button>
+
+                            <button *ngIf="this.datos_crear.id" type="button" class="btn btn-link"
+                                style="color: #1062b9;border-color: #1062b9;"
+                                (click)="editarAddImagenes()">Grabar</button>
                         </div>
 
                     </div>

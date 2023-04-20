@@ -14,7 +14,7 @@ export class EnfermeriaGuard implements CanActivate {
     let user = localStorage.getItem('currentUser');
     if (user) {
       let us=JSON.parse(user);
-      if(us.perfil_aplicacion==2){
+      if(us.perfil==2){
         return true;
       }else{
         return false;

@@ -121,29 +121,36 @@
             </div>
 
                 <div class="row mb-2">
-                    <div class="col">
+                    <div class="col-6">
+                        <b>Tiene Link Calendario</b>:
+                        <select  class="form-control" [(ngModel)]="miperfil['calendar']">
+                            <option [value]="0">No</option>
+                            <option [value]="2">Si</option>
+                        </select>
+                    </div>
+<!--                    <div class="col">
                         <b>Semaforo Calculado:</b><br>
                         {{buscarsemaforo(miperfil['semaforo'])}}
                         
 
                     </div>
-                    <div class="col">
+                     <div class="col">
                         <b>Mensaje</b>:<br>
                         {{miperfil['mensaje']}}
-                    </div>
+                    </div> -->
                 </div>
 
 
 
                 <div class="row mb-2">
-                    <div class="col">
+<!--                     <div class="col">
                         <b>Marca:</b><br>
                         {{miperfil['marca']?miperfil['color']:'Sin marca personalizada'}}                    
                     </div>
                     <div class="col">
                         <b>Fecha:</b><br>
                         {{miperfil['fecha_marca']?miperfil['fecha_marca']:'Sin marca personalizada'}}                    
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -166,8 +173,8 @@
 
                             <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
                             (click)="editarperfil()">Editar Usuario</button>
-                            <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
-                            (click)="modalmarca()">{{miperfil['marca']?'Modificar marca actual':'Crear marca personalizada'}}</button>
+<!--                             <button type="button" class="btn btn-link" style="color: #1062b9;border-color: #1062b9;"
+                            (click)="modalmarca()">{{miperfil['marca']?'Modificar marca actual':'Crear marca personalizada'}}</button> -->
                     </div>
 
 

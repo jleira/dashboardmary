@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CoreporteComponent } from '../administrador/coreporte/coreporte.component';
 import { FrecuenciaComponent } from '../administrador/frecuencia/frecuencia.component';
 import { LineatiempoComponent } from '../administrador/lineatiempo/lineatiempo.component';
+import { ProtocolosComponent } from '../administrador/protocolos/protocolos.component';
 import { ReportedeformulariosComponent } from '../administrador/reportedeformularios/reportedeformularios.component';
 import { ReporteponderadoComponent } from '../administrador/reporteponderado/reporteponderado.component';
 import { ReporteporusuarioComponent } from '../administrador/reporteporusuario/reporteporusuario.component';
@@ -14,34 +15,7 @@ import { UsuariosporseccionComponent } from '../administrador/usuariosporseccion
 import { UsuariossupervisionComponent } from '../administrador/usuariossupervision/usuariossupervision.component';
 
 
-const routes: Routes = [{
-  path: 'reportes',
-  component: ReportesComponent
-},{
-  path: 'indicador',
-  component: LineatiempoComponent
-},{
-  path: 'coomovidad',
-  component: CoreporteComponent
-}
-,{
-  path: 'tendencias',
-  component: TendenciasComponent
-},{
-  path: 'reporteporusuario',
-  component: ReporteporusuarioComponent
-},{
-  path: 'frecuencia',
-  component: FrecuenciaComponent
-},{
-  path: 'reportegeneral',
-  component: ReportedeformulariosComponent
-},
-
-{
-  path: 'usuariosxseccion',
-  component: UsuariosporseccionComponent
-}, 
+const routes: Routes = [
 {
   path: 'detallesusuario/:userid',
   component: UserdetailComponent
@@ -49,13 +23,9 @@ const routes: Routes = [{
 {
   path: 'reportesgenerales',
   component: ReportesgeneralComponent
-},{
-  path: 'reporteglobal',
-  component: ReporteponderadoComponent
-},
-{
-  path: 'entrada/usuarios',
-  component: UsuariossupervisionComponent
+}, {
+  path: 'updatelink',
+  component: ProtocolosComponent
 }];
 
 @NgModule({

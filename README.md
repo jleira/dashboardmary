@@ -247,3 +247,18 @@ Instagram: <https://www.instagram.com/CreativeTimOfficial>
 
 [version-badge]: https://img.shields.io/badge/version-2.4.0-blue.svg
 # auditoriaspolo
+
+
+
+
+
+#notas
+
+modulos
+
+    administrador - todos los permisos
+ 
+    gestor de conteniedo - subir contenido (boletin, noticias, cartelera)
+
+    tecnologia - todo
+

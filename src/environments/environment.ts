@@ -6,7 +6,7 @@
 
 export const environment = {
   production: false,
-  dominio: 'http://colegio.automata.host/public/index.php/api/',
+  dominio: 'https://academy.lat/public/index.php/api/',
   ISLOGGEDKEY: 'token',
   categorias: [
     { id: 1, nombre: 'Talento Humano', tipo_pago: [1, 2, 3] }
@@ -39,5 +39,5 @@ export const environment = {
     ,{ id: 3, nombre: 'opciones con multiples respuestas' }
     ,{ id: 4, nombre: 'opciones con unica respuesta' }
     ],
-
+  prefijoImg:'https://academy.lat/storage/app/noticias/'
 };

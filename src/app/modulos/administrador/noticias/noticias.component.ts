@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -7,8 +7,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { environment } from 'environments/environment';
 declare var $: any;
 import Swal from 'sweetalert2';
-import * as AWS from 'aws-sdk/global';
-import * as S3 from 'aws-sdk/clients/s3';
 
 
 @Component({
@@ -17,6 +15,7 @@ import * as S3 from 'aws-sdk/clients/s3';
   styleUrls: ['./noticias.component.css']
 })
 export class NoticiasComponent implements OnInit {
+  files: File[] = [];
 
   @ViewChild(DataTableDirective, { static: false })
 
@@ -26,14 +25,16 @@ export class NoticiasComponent implements OnInit {
   title = 'angulardatatables';
   orden = -1;
   ordening = -1;
+  indexSelected = 0;
   dtOptions: DataTables.Settings = {
     language: {
       url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
     }
   };
+  position =null;
   dtTrigger: Subject<any> = new Subject();
-  datos_crear = {
-    titulo_espanol: ''
+  datos_crear:any = {
+    titulo: ''
     , titulo_ingles: ''
     , archivos: ''
     , archivosing: ''
@@ -50,9 +51,9 @@ export class NoticiasComponent implements OnInit {
   Archivos = [];
   toFile;
   contador = 0;
-
+  prefijoImg=environment.prefijoImg;
   public source = '';
-  public srcImagespa = '';
+  public srcImagespa = [];
   public srcImageing = '';
   public url_image = '';
 
@@ -60,6 +61,8 @@ export class NoticiasComponent implements OnInit {
   public tiempo_ing;
 
   inicial=1;
+
+  imagenSelected = 0 ;
   constructor(private api: ApirestService,
     private SpinnerService: NgxSpinnerService) {
 
@@ -70,7 +73,7 @@ export class NoticiasComponent implements OnInit {
   }
 
   cargarnoticias() {
-    this.api.getdata('todosnoticias').subscribe((items) => {
+    this.api.getdata('allNews').subscribe((items) => {
       this.data = items.data;
       if(this.inicial>1){
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -91,7 +94,7 @@ export class NoticiasComponent implements OnInit {
 
   crearnuevo() {
     this.srcImageing = '';
-    this.srcImagespa = '';
+    this.srcImagespa = [];
 
     this.datos_crear = {
       titulo_espanol: ''
@@ -102,22 +105,91 @@ export class NoticiasComponent implements OnInit {
       , img_principaling: ''
       , archivosing: ''
       ,categoria:''
-
+      ,titulo:''
+      ,enlace:''
+      ,texto:''
+      ,date_new:'',
+      tipo:1,
+      principal:1
 
     }
+    this.ImagenPrincipalspa = null;
+    this.srcImagespa = [];
+    this.perfiles.forEach((it)=>{
+        it.selected = false
+    })
+
     $('#exampleModalpublicacion').modal('show');
   }
-  editar(item) {
+  editar(item,position) {
+    console.log('entro')
+    this.position = position;
     let newitem = item;
     this.datos_crear = newitem;
-    this.srcImageing = this.datos_crear.img_principaling;
-    this.srcImagespa = this.datos_crear.img_principal;
+    this.srcImagespa[0] =this.prefijoImg+this.datos_crear.imagen;
+    this.perfiles.forEach((it)=>{
+      if(item.categorias?.indexOf(it.valor)>-1){
+        it.selected = true
+      }else{
+        it.selected = false
+      }
+    })
     $('#exampleModalpublicacion').modal('show');
+  }
+
+  editarI(item,position) {
+    this.imagenSelected = 0;
+    this.position = position;
+      
+    let newitem = JSON.parse(JSON.stringify(item));
+    if(newitem.imagen){
+      newitem.imagen = newitem.imgp+','+newitem.imagen;
+    }else{
+      newitem.imagen = newitem.imgp;
+
+    }
+
+    this.datos_crear = newitem;
+    
+    
+    this.srcImagespa[0] =this.prefijoImg+this.datos_crear.imgp;
+
+
+    this.perfiles.forEach((it)=>{
+      if(item.categorias?.indexOf(it.valor)>-1){
+        it.selected = true
+      }else{
+        it.selected = false
+      }
+    })
+    $('#exampleModalImagenes').modal('show');
+  }
+
+  editarAdd(item,position) {
+    this.position = position;
+    let newitem = item;
+    this.datos_crear = newitem;
+    this.srcImagespa= [];
+    
+    this.perfiles.forEach((it)=>{
+      if(item.categorias?.indexOf(it.valor)>-1){
+        it.selected = true
+      }else{
+        it.selected = false
+      }
+    })
+    $('#exampleModalImagenesAdd').modal('show');
   }
 
   cargarperfiles() {
-    this.api.getdata('tiposPorClase?clase=noticias_categorias').subscribe((items) => {
-      this.perfiles = items.data;
+    this.api.getdata('tiposPorClase?clase=perfiles').subscribe((items) => {
+      this.perfiles =items.data.map((item)=>{
+        return {
+          ...item,
+          selected:false
+        }
+      })
+      console.log(this.perfiles)
     }, err => {
       if (err.status == 422) {
         err.errors.forEach(element => {
@@ -150,7 +222,7 @@ export class NoticiasComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.SpinnerService.show();
-        this.api.getdata('eliminarnoticia/' + id).subscribe((items) => {
+        this.api.getdata('deleteNews/' + id).subscribe((items) => {
           this.SpinnerService.hide();
           this.data = this.data.filter((ele) => {
             return ele.id != id;
@@ -174,278 +246,239 @@ export class NoticiasComponent implements OnInit {
   }
 
 
-
-  cargararchivo(file, tiempo) {
-    return new Promise(resolve => {
-
-      const contentType = file.type;
-      const bucket = new S3(
-        {
-          accessKeyId: 'AKIA5XZBCSQRSOTELRDC',
-          secretAccessKey: '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',
-          region: 'us-east-2',
-
-        }
-      );
-
-      let name = file.name;
-      let lastDot = name.lastIndexOf('.');    
-      let fileName = name.substring(0, lastDot);
-      let ext = name.substring(lastDot + 1);
-  
-      const params = {
-        Bucket: 'marymountapp/Noticias',
-        Key: tiempo + this.textoaleatorio(10)+'.'+ext,
-        Body: file,
-        ACL: 'public-read',
-        ContentType: contentType
-      };
-      let misvariables = this;
-      bucket.upload(params, function (err, data) {
-        misvariables.contador = misvariables.contador + 1;
-        if (err) {
-          console.log('EROOR: ', JSON.stringify(err));
-          resolve(err);
-          return err;
-        }
-        console.log('File Uploaded.', data);
-        resolve(data);
-        return data;
-      });
-    })
-  }
-  eliminiar() {
-    const bucket = new S3(
-      {
-        accessKeyId: 'AKIA5XZBCSQRSOTELRDC',
-        secretAccessKey: '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',
-        region: 'us-east-2',
-
-      }
-    );
-    const params = {
-      Bucket: 'marymountapp',
-      Key: "Publicaciones/Simulator2.png",
-    };
-    bucket.deleteObject(params, function (err, data) {
-      if (err) {
-        console.log('EROOR: ', JSON.stringify(err));
-        return false;
-      }
-      console.log('File Uploaded.', data);
-      return true;
-    });
-  }
-
-
-  //------------------//---------------
-
-
   onChangeImagenPrincipalEsp(event) {
     this.tiempo_spa = new Date().getTime();
     this.ImagenPrincipalspa = event.target.files;
-    this.projectImage(event.target['files'][0], 1);
+    this.srcImagespa= [];
+    console.log(event.target.files)
+    this.indexSelected= 0;
+    for (let index = 0; index<this.ImagenPrincipalspa.length; index++) {
+        this.projectImage(event.target['files'][index],index==0?true:false);      
+    }
   }
 
-  onChangeImagenPrincipalIng(event) {
-    this.tiempo_ing = new Date().getTime();
-    this.ImagenPrincipaling = event.target.files;
-    this.projectImage(event.target['files'][0], 2);
+  projectImage(file: File, principal) {
+    console.log(file)
+    if(file){
+      console.log("entro en la proyeccion");
+      let reader = new FileReader;
+      reader.onload = (e: any) => {
+        console.log('perfecto')
+        this.source = e.target.result;
+        this.url_image = this.source;
+        this.srcImagespa.push({img:this.url_image, selected:principal});
+        console.log('src',this.srcImagespa)
+      };
+      reader.readAsDataURL(file);
+    }
+
   }
+  crear2() {
+    console.log(this.srcImagespa,'test img ',this.ImagenPrincipalspa)
 
-
-  projectImage(file: File, tipo) {
-    console.log("entro en la proyeccion", tipo,);
-    let reader = new FileReader;
-    reader.onload = (e: any) => {
-      this.source = e.target.result;
-      this.url_image = this.source;
-      if (tipo == 1) {
-        this.srcImagespa = this.url_image;
-      } else {
-        this.srcImageing = this.url_image;
+    if(this.ImagenPrincipalspa.length > 1){
+      console.log('buscando imagen principal', this.indexSelected)
+      const imagen_principal = this.ImagenPrincipalspa[this.indexSelected];
+      console.log('imagen_principal1')
+      console.log(imagen_principal)
+      console.log('imagen_principal2')
+      let newImage= [];
+      for (let index = 0; index < this.ImagenPrincipalspa.length; index++) {
+        if(index != this.indexSelected){
+          newImage.push(this.ImagenPrincipalspa[index])
+        }
       }
-    };
-    reader.readAsDataURL(file);
+      console.log(newImage)
+
+    }
   }
 
-  subir() {
+  crear() {
     this.contador = 0;
     let mensaje = '';
-    if (!this.datos_crear.titulo_espanol) {
-      mensaje = '<br>Titulo en español es requerido';
+    const perfilesS =this.perfiles.filter((f)=> f.selected).map((m)=> {return m.valor}).join(); 
+
+    if (!this.datos_crear.titulo) {
+      mensaje = '<br>Titulo es requerido';
     }
-    if (!this.datos_crear.titulo_ingles) {
-      mensaje = mensaje + '<br>Titulo en ingles es requerido';
+
+    if (!this.datos_crear.date_new) {
+      mensaje = '<br>Fecha de noticia es requerida';
     }
-    if (!this.ImagenPrincipalspa) {
+    
+    if (!this.files?.length) {
       mensaje = mensaje + '<br>Imagen principal para español es requerida';
     }
 
-    if (!this.ImagenPrincipaling) {
-      mensaje = mensaje + '<br>Imagen principal para ingles es requerida';
+    if (!perfilesS) {
+      mensaje = mensaje + '<br>Debe seleccionar al menos un categoria';
     }
+
     if (mensaje) {
       console.log(mensaje, this.datos_crear);
       this.api.notificaciones('warning', "Campos incompletos<br>" + mensaje);
       return;
     }
 
-    this.SpinnerService.show();
-    const file1 = this.ImagenPrincipaling.item(0);
-    const file2 = this.ImagenPrincipalspa.item(0);
-    this.cargararchivo(file1, this.tiempo_spa).then((data) => {
-      this.datos_crear.img_principaling = data['Location'];
-      if (this.contador == 2) {
-        this.subirtodo();
+    const formData = new FormData();
+
+
+    console.log(this.perfiles,perfilesS)
+
+
+    if(this.files.length > 1){
+      console.log('buscando imagen principal', this.indexSelected)
+      const imagen_principal = this.files[this.indexSelected];
+      let newImage= [];
+      for (let index = 0; index < this.files.length; index++) {
+        if(index != this.indexSelected){
+          newImage.push(this.files[index])
+          formData.append('file'+(index-1), this.files[index]);
+
+        }
       }
-    });
-    this.cargararchivo(file2, this.tiempo_ing).then((data) => {
-      this.datos_crear.img_principal = data['Location'];
-      if (this.contador == 2) {
-        this.subirtodo();
+      formData.append('filesSecondary', String(this.files.length - 1));
+      formData.append('titulo', this.datos_crear.titulo);
+      formData.append('file', imagen_principal);
+
+    }else{
+      formData.append('file', this.files[0]);
+    }
+
+    formData.append('titulo', this.datos_crear.titulo);
+    formData.append('enlace', this.datos_crear.enlace);
+    formData.append('texto', this.datos_crear.texto);
+    formData.append('date_new', this.datos_crear.date_new);
+    formData.append('tipo', this.datos_crear.tipo);
+    formData.append('principal', this.datos_crear.principal);
+    formData.append('categorias', perfilesS);
+    
+
+
+   this.SpinnerService.show();
+
+    this.api.postdata(formData, 'newNews').subscribe((respuesta) => {
+      this.api.notificaciones('success', 'Información cargada exitosamente');
+      if (!this.datos_crear.id) {
+        this.data.push(respuesta.data);
+        this.cargarnoticias();
       }
+      this.datos_crear = {
+        titulo_espanol: ''
+        , titulo_ingles: ''
+        , archivos: ''
+        , id: 0
+        , img_principal: ''
+        , img_principaling: ''
+        , archivosing: ''
+        ,categoria:''
+        ,titulo:''
+        ,enlace:''
+        ,texto:''
+        ,date_new:''    
+      }
+      this.ImagenPrincipalspa = null;
+      this.files= [];
+      this.srcImagespa = [];
+      $('#exampleModalpublicacion').modal('hide');
+      this.SpinnerService.hide();
+
+    }, err => {
+      this.SpinnerService.hide();
+
+      if (err.status == 410) {
+
+        this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
+
+        return;
+      }
+
+      this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
+      console.log('error', err);
+
     });
 
-
-
-  }
-
-  subirtodo() {
-    setTimeout(() => {
-      this.SpinnerService.show();
-      this.api.postdata(this.datos_crear, this.datos_crear.id ? ('editarnoticia/' + this.datos_crear.id) : 'nuevanoticia').subscribe((respuesta) => {
-        this.api.notificaciones('success', 'Información cargada exitosamente');
-        if (!this.datos_crear.id) {
-          this.data.push(respuesta.data);
-          this.cargarnoticias();
-        }
-        this.datos_crear = {
-          titulo_espanol: ''
-          , titulo_ingles: ''
-          , archivos: ''
-          , id: 0
-          , img_principal: ''
-          , img_principaling: ''
-          , archivosing: ''
-          ,categoria:''
-
-        }
-        $('#exampleModalpublicacion').modal('hide');
-        this.SpinnerService.hide();
-
-      }, err => {
-        this.SpinnerService.hide();
-
-        if (err.status == 410) {
-
-          this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
-
-          return;
-        }
-
-        this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
-        console.log('error', err);
-
-      });
-    }, 1000);
   }
 
   editarpublicacion() {
     this.contador = 0;
-
+    this.contador = 0;
     let mensaje = '';
-    if (!this.datos_crear.titulo_espanol) {
-      mensaje = '<br>Titulo en español es requerido';
+    const perfilesS =this.perfiles.filter((f)=> f.selected).map((m)=> {return m.valor}).join(); 
+
+    if (!this.datos_crear.titulo) {
+      mensaje = '<br>Titulo es requerido';
     }
-    if (!this.datos_crear.titulo_ingles) {
-      mensaje = mensaje + '<br>Titulo en ingles es requerido';
+
+    if (!this.datos_crear.date_new) {
+      mensaje = '<br>Fecha de noticia es requerida';
     }
+    if (!perfilesS) {
+      mensaje = mensaje + '<br>Debe seleccionar al menos un categoria';
+    }
+    
+
 
     if (mensaje) {
-
       console.log(mensaje, this.datos_crear);
       this.api.notificaciones('warning', "Campos incompletos<br>" + mensaje);
       return;
     }
-    this.SpinnerService.show();
 
 
+    console.log(this.ImagenPrincipalspa, this.datos_crear);
+    const formData = new FormData();
 
-    let inicio = 0;
-    if (this.ImagenPrincipalspa) {
-      inicio = inicio + 1;
-      const file1 = this.ImagenPrincipalspa.item(0);
-      this.cargararchivo(file1, this.tiempo_spa).then((data) => {
-        this.datos_crear.img_principal = data['Location'];
-        if (this.contador == inicio) {
-          console.log("se cargo todo :v");
-          this.editartodo();
-        }
-      });
-    }
+  
+    formData.append('id', this.datos_crear.id);
+    formData.append('titulo', this.datos_crear.titulo);
+    formData.append('enlace', this.datos_crear.enlace);
+    formData.append('texto', this.datos_crear.texto);
+    formData.append('date_new', this.datos_crear.date_new);
+    formData.append('tipo', this.datos_crear.tipo);
+    formData.append('principal', this.datos_crear.principal);
+    formData.append('categorias', perfilesS);
 
-    if (this.ImagenPrincipaling) {
-      inicio = inicio + 1;
-      const file2 = this.ImagenPrincipaling.item(0);
-      this.cargararchivo(file2, this.tiempo_ing).then((data) => {
-        this.datos_crear.img_principaling = data['Location'];
-        if (this.contador == inicio) {
-          console.log("se cargo todo :v");
-          this.editartodo();
-        }
-      });
-    }
+    this.api.postdata(formData, 'editNews').subscribe((respuesta) => {
+      this.api.notificaciones('success', 'Información cargada exitosamente');
+
+      this.cargarnoticias();
 
 
-    if (!inicio) {
-      this.editartodo();
-    }
-  }
-  editartodo() {
-    setTimeout(() => {
-      this.SpinnerService.show();
-      this.api.postdata(this.datos_crear, this.datos_crear.id ? ('editarnoticia/' + this.datos_crear.id) : 'nuevanoticia').subscribe((respuesta) => {
-        this.api.notificaciones('success', 'Información cargada exitosamente');
-        if (!this.datos_crear.id) {
-          this.data.push(respuesta.data);
-        }
-        this.datos_crear = {
-          titulo_espanol: ''
-          , titulo_ingles: ''
-          , archivos: ''
-          , id: 0
-          , img_principal: ''
-          , img_principaling: ''
-          , archivosing: ''
-          ,categoria:''
+      this.datos_crear = {
+        titulo_espanol: ''
+        , titulo_ingles: ''
+        , archivos: ''
+        , id: 0
+        , img_principal: ''
+        , img_principaling: ''
+        , archivosing: ''
+        ,categoria:''
+        ,titulo:''
+        ,enlace:''
+        ,texto:''
+        ,date_new:''    
+      }
+      this.ImagenPrincipalspa = null;
+      this.srcImagespa = [];
+      $('#exampleModalpublicacion').modal('hide');
+      this.SpinnerService.hide();
 
-        }
-        $('#exampleModalpublicacion').modal('hide');
+    }, err => {
+      this.SpinnerService.hide();
 
-        this.SpinnerService.hide();
-        setTimeout(() => {
-          this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.destroy();
-            this.dtTrigger.next();
-          });
-        }, 1000);
+      if (err.status == 410) {
 
-      }, err => {
-        this.SpinnerService.hide();
+        this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
 
-        if (err.status == 410) {
+        return;
+      }
 
-          this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
+      this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
+      console.log('error', err);
 
-          return;
-        }
+    });
 
-        this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
-        console.log('error', err);
-
-      });
-    }, 1000);
   }
 
   textoaleatorio(length) {
@@ -457,4 +490,162 @@ export class NoticiasComponent implements OnInit {
     }
     return result;
  }
+
+ changeImg(i){
+  this.srcImagespa = this.srcImagespa.map((imgs)=>{
+return {img:imgs.img, selected:false}
+  })
+  this.indexSelected= i;
+  this.srcImagespa[i].selected = true;
+ }
+
+ getImages(img)
+ {
+  if(img){
+    return img.split(',');
+  }
+  return []
+ }
+
+ editarOrdenImagenes(){
+
+  const imgp = this.datos_crear.imagen.split(',')[this.imagenSelected];
+  const imagen = this.datos_crear.imagen.split(',');
+  imagen.splice(this.imagenSelected,1)
+
+  const formData = new FormData();
+
+  
+  formData.append('id', this.datos_crear.id);
+  formData.append('imgp', imgp);
+  formData.append('imagen', imagen);
+
+  this.api.postdata(formData, 'editNewsImage').subscribe((respuesta) => {
+    this.api.notificaciones('success', 'Información cargada exitosamente');
+    this.cargarnoticias();
+    this.datos_crear = {
+      titulo_espanol: ''
+      , titulo_ingles: ''
+      , archivos: ''
+      , id: 0
+      , img_principal: ''
+      , img_principaling: ''
+      , archivosing: ''
+      ,categoria:''
+      ,titulo:''
+      ,enlace:''
+      ,texto:''
+      ,date_new:''
+      ,imagen:''
+
+    }
+    this.ImagenPrincipalspa = null;
+    this.srcImagespa = [];
+    $('#exampleModalImagenes').modal('hide');
+    this.SpinnerService.hide();
+
+  }, err => {
+    this.SpinnerService.hide();
+
+    if (err.status == 410) {
+
+      this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
+
+      return;
+    }
+
+    this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
+    console.log('error', err);
+
+  });
+ }
+
+ editarAddImagenes(){
+  const formData = new FormData();
+
+
+
+  if(!this.files?.length){
+    this.api.notificaciones('warning', "Debe cargar una imagen<br>" );
+    return;
+  }
+    let newImage= [];
+    for (let index = 0; index < this.files.length; index++) {
+        newImage.push(this.files[index])
+        formData.append('file'+(index), this.files[index]);
+    }
+    formData.append('filesSecondary', String(this.files.length));
+
+  formData.append('id', this.datos_crear.id);
+  const imagen = this.datos_crear.imagen;
+  formData.append('imagen', imagen);
+
+  this.api.postdata(formData, 'editNewsaddImage').subscribe((respuesta) => {
+    this.files = [];
+    this.api.notificaciones('success', 'Información cargada exitosamente');
+
+    this.cargarnoticias();
+
+
+    this.datos_crear = {
+      titulo_espanol: ''
+      , titulo_ingles: ''
+      , archivos: ''
+      , id: 0
+      , img_principal: ''
+      , img_principaling: ''
+      , archivosing: ''
+      ,categoria:''
+      ,titulo:''
+      ,enlace:''
+      ,texto:''
+      ,date_new:''
+      ,imagen:''
+
+    }
+    this.ImagenPrincipalspa = null;
+    this.srcImagespa = [];
+    $('#exampleModalImagenesAdd').modal('hide');
+    this.SpinnerService.hide();
+
+  }, err => {
+    this.SpinnerService.hide();
+
+    if (err.status == 410) {
+
+      this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['error']['message']);
+
+      return;
+    }
+
+    this.api.notificaciones('danger', 'Ha ocurrido un error<br>' + err['message']);
+    console.log('error', err);
+
+  });
+ }
+
+ eliminarItmen(index){
+   const datos =  this.datos_crear.imagen.split(',');
+   datos.splice(index,1);
+   this.datos_crear.imagen=datos.join(',');
+ }
+
+ subir(item){
+  let datos =  this.datos_crear.imagen.split(',');
+  const ant = datos [item-1];
+  datos[item-1]=datos[item];
+  datos[item]=ant;
+  this.datos_crear.imagen=datos.join(',');
+}
+
+onSelect(event) {
+  console.log(event);
+  this.files.push(...event.addedFiles);
+}
+
+onRemove(event) {
+  console.log(event);
+  this.files.splice(this.files.indexOf(event), 1);
+}
+
 }

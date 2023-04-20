@@ -8,5 +8,10 @@
         <input type="password" id="password" class="fadeIn third" [(ngModel)]="user['password']" name="password" placeholder="contraseña">
         <input type="button" class="fadeIn fourth" (click)="iniciarsesion()" value="Iniciar sesión">
       </form>
+
+      <div>
+        <button type="button" (click)="loginWithGoogle()" class="btn btn-danger">Login with Google</button>
+      </div>
+  
     </div>
   </div>

@@ -13,11 +13,9 @@ export class PerfiladministradorGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let user = localStorage.getItem('currentUser');
-    console.log("current", user);
     if (user) {
       user = JSON.parse(user);
-      console.log(user);
-      if (user['perfil_aplicacion'] == 1) {
+      if (user['perfil'] == 1) {
         return true;
       } else {
         this.authService.logout();

@@ -33,12 +33,17 @@ import { ReportesgeneralComponent } from './reportesgeneral/reportesgeneral.comp
 import { ReporteponderadoComponent } from './reporteponderado/reporteponderado.component';
 import { FamiliasComponent } from './familias/familias.component';
 import { UsuariossupervisionComponent } from './usuariossupervision/usuariossupervision.component';
+import { BoletinComponent } from './boletin/boletin.component';
+import { UpCommingComponent } from './upcomming/upcomming.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CalendarioComponent } from './calendario/calendario.component';
+import { SuggestionComponent } from './suggestion/suggestion.component';
 
 
 @NgModule({
   declarations: [PreguntasComponent, FormulariosComponent, DetalleformularioComponent, UsuariosComponent, 
     ProgramacionComponent, NoticiasComponent, ProtocolosComponent, NotificacionesComponent, UserdetailComponent, ReportesComponent, 
-    LineatiempoComponent, CoreporteComponent, UsuariosporseccionComponent, TendenciasComponent, ReporteporusuarioComponent, FrecuenciaComponent, ReportedeformulariosComponent, ReportesgeneralComponent, ReporteponderadoComponent,FamiliasComponent, UsuariossupervisionComponent],
+    LineatiempoComponent, CoreporteComponent, UsuariosporseccionComponent, TendenciasComponent, ReporteporusuarioComponent, FrecuenciaComponent, ReportedeformulariosComponent, ReportesgeneralComponent, ReporteponderadoComponent,FamiliasComponent, UsuariossupervisionComponent , BoletinComponent, UpCommingComponent, CalendarioComponent, SuggestionComponent],
   imports: [
     CommonModule,
     AdministradorRoutingModule,
@@ -51,8 +56,10 @@ import { UsuariossupervisionComponent } from './usuariossupervision/usuariossupe
     MatRippleModule,
     ReactiveFormsModule,
     NgSelect2Module,
-    ChartsModule
+    ChartsModule,
+    NgxDropzoneModule
   ],
-  providers: [  ]
+  providers: [  ],
+  exports:[]
 })
 export class AdministradorModule { }

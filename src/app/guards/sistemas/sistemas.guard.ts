@@ -13,7 +13,7 @@ export class SistemasGuard implements CanActivate {
     let user = localStorage.getItem('currentUser');
     if (user) {
       let us=JSON.parse(user);
-      if(us.perfil_aplicacion==4){
+      if(us.perfil==4){
         return true;
       }else{
         return false;

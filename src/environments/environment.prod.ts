@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  dominio: 'http://colegio.automata.host/public/index.php/api/',
+  dominio: 'https://academy.lat/public/index.php/api/',
   ISLOGGEDKEY:'token',
   categorias: [
     { id: 1, nombre: 'Talento Humano', tipo_pago: [1, 2, 3] }

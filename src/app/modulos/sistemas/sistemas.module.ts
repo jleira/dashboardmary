@@ -10,14 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { NgSelect2Module } from 'ng-select2';
-import { UsuariosComponent } from '../administrador/usuarios/usuarios.component';
-import { UserdetailComponent } from '../administrador/userdetail/userdetail.component';
-import { FamiliasComponent } from '../administrador/familias/familias.component';
-import { UsuariossupervisionComponent } from '../administrador/usuariossupervision/usuariossupervision.component';
+import { AdministradorModule } from '../administrador/administrador.module';
 
 
 @NgModule({
-  declarations: [UsuariosComponent,UserdetailComponent,FamiliasComponent,UsuariossupervisionComponent],
+  declarations: [],
   imports: [
     CommonModule,
     SistemasRoutingModule,
@@ -30,6 +27,7 @@ import { UsuariossupervisionComponent } from '../administrador/usuariossupervisi
     MatRippleModule,
     ReactiveFormsModule,
     NgSelect2Module,
+    AdministradorModule
   ] 
 })
 export class SistemasModule { }
