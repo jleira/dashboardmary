@@ -3,11 +3,6 @@ import { AuthService } from 'app/servicios/auth/auth.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import {
-  SocialAuthService,
-  GoogleLoginProvider,
-  SocialUser,
-} from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +14,13 @@ export class LoginComponent implements OnInit {
     email:'',
     password:''
   };
-  socialUser!: SocialUser;
+//  socialUser!: SocialUser;
   constructor(
     private SpinnerService: NgxSpinnerService, 
     public authservice: AuthService,
     private toastr: ToastrService,
     private router: Router,
-    private socialAuthService: SocialAuthService) {
+) {
 
    }
 

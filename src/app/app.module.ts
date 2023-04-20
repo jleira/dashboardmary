@@ -30,12 +30,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgSelect2Module } from 'ng-select2';
 import { ChartsModule } from 'ng2-charts';
 import { JwtModule } from "@auth0/angular-jwt";
-/* import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-} from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
- */
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -55,7 +50,6 @@ export function tokenGetter() {
     NgxSpinnerModule,
     NgSelect2Module,
     ChartsModule,
-    SocialLoginModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter
@@ -74,18 +68,7 @@ export function tokenGetter() {
 
   ],
   providers: [
-    /* {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('1073228293817-0t47gtfvd63bv9olo670ergc71os6ils.apps.googleusercontent.com'),
-          },
-        ],
-      } as SocialAuthServiceConfig,
-    } */
+
   ],
   bootstrap: [AppComponent]
 })
